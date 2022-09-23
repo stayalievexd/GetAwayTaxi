@@ -10,6 +10,10 @@ public class AiMovement : MonoBehaviour
 
         Patrouling the streets between points
     */
+    [Header("AI Settings")]
+
+    [Tooltip("Main AI Manager Script")]
+    [SerializeField] private float stoppingDistance = 5;
 
     [Header("AI Components")]
 
@@ -32,7 +36,7 @@ public class AiMovement : MonoBehaviour
     {
         if(currentPos != null)
         {
-            if(agent.remainingDistance <= agent.stoppingDistance)
+            if(agent.remainingDistance <= stoppingDistance)
             {
                 setPoint();
             }
@@ -41,6 +45,8 @@ public class AiMovement : MonoBehaviour
 
     public void setPoint()
     {
-        agent.SetDestination(aiManagerScript.getNewPoint(currentPos).position);
+        Transform newPostition = aiManagerScript.getNewPoint(currentPos);
+        agent.SetDestination(newPostition.position);
+        currentPos = newPostition;
     }
 }

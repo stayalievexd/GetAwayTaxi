@@ -7539,9 +7539,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1503490512}
+  - component: {fileID: 1503490515}
   - component: {fileID: 1503490514}
   - component: {fileID: 1503490513}
-  - component: {fileID: 1503490515}
   m_Layer: 0
   m_Name: AI
   m_TagString: Untagged
@@ -7614,6 +7614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e22cfee81b70749a3c5b8e13b19839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoppingDistance: 5
   aiManagerScript: {fileID: 2094669528}
   agent: {fileID: 1503490513}
 --- !u!1 &1507475939
