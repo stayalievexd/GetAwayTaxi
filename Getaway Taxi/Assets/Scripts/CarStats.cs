@@ -23,9 +23,7 @@ public class CarStats : MonoBehaviour
     private void Update()
     {
         countDistance();
-        Debug.Log("Distance moved : " + distanceMoved + " Current speed : " + getSpeed());
     }
-    
 
     private void countDistance()
     {
@@ -35,7 +33,7 @@ public class CarStats : MonoBehaviour
         oldPos = transform.position;
     }
 
-    ////////////// get date : 
+    ////////////// get data : 
 
     public float getMovedDistance()
     {

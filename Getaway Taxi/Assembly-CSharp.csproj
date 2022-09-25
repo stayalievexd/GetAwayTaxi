@@ -36,12 +36,18 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Look.cs" />
-     <Compile Include="Assets\Scripts\Car.cs" />
+     <Compile Include="Assets\Scripts\CarUI.cs" />
+     <Compile Include="Assets\Scripts\Ai\FollowObject.cs" />
      <Compile Include="Assets\Scripts\UIController.cs" />
      <Compile Include="Assets\Scripts\SteeringWheel.cs" />
+     <Compile Include="Assets\Scripts\Look.cs" />
+     <Compile Include="Assets\Scripts\Car.cs" />
      <Compile Include="Assets\Scripts\CarStats.cs" />
-     <Compile Include="Assets\Scripts\CarUI.cs" />
+     <Compile Include="Assets\Scripts\Ai\AiMovement.cs" />
+     <Compile Include="Assets\Scripts\Ai\AiManager.cs" />
+     <Compile Include="Assets\Scripts\Gear.cs" />
+     <Compile Include="Assets\Scripts\Ai\AiCarInformation.cs" />
+     <Compile Include="Assets\Scripts\Ai\AiController.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
@@ -89,6 +95,12 @@
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
@@ -243,6 +255,9 @@
     <Reference Include="UnityEngine.VideoModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.WindModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
     </Reference>
@@ -277,7 +292,7 @@
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -631,103 +646,103 @@
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.28f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.InteractiveTutorialsFramework">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.InteractiveTutorialsFramework.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.InteractiveTutorialsFramework.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.WindowsMixedReality">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.WindowsMixedReality.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.WindowsMixedReality.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Management.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Management.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Interaction.Toolkit">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Subsystem.Registration">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Subsystem.Registration.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Subsystem.Registration.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InteractiveTutorials.Core">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InteractiveTutorials.Core.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InteractiveTutorials.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.InteractionSubsystems">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.InteractionSubsystems.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.InteractionSubsystems.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.CoreUtils.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.WindowsMixedReality.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.WindowsMixedReality.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.WindowsMixedReality.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.ARSubsystems.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.ARSubsystems.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.ARSubsystems.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.CoreUtils">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.CoreUtils.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.CoreUtils.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.ARSubsystems">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.ARSubsystems.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.ARSubsystems.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Oculus.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Interaction.Toolkit.Editor">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.Editor.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Oculus">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InteractiveTutorials.Core.Scripts">
-        <HintPath>C:\school\Year-2\Block-1\Game\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InteractiveTutorials.Core.Scripts.dll</HintPath>
+        <HintPath>D:\Users\dylan\GetAwayTaxi\Getaway Taxi\Library\ScriptAssemblies\Unity.InteractiveTutorials.Core.Scripts.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
