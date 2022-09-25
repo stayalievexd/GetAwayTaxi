@@ -63,6 +63,9 @@ public class Car : MonoBehaviour
     [Tooltip("Rigidbody of car gameobject")]
     [SerializeField] private Rigidbody carRb;
 
+    [Tooltip("Gear stick Animator")]
+    [SerializeField] private Animator gearAnim;
+
     [Header("Scripts")]
 
     [Tooltip("Script for the ui in the car")]
@@ -146,36 +149,41 @@ public class Car : MonoBehaviour
         carAngle += (inputVerticle * inclineSpeed) * Time.deltaTime;
         carAngle = Mathf.Clamp(carAngle, -maxIncline, maxIncline);
 
-        if(inputVerticle < 0)//down
+        if(inputVerticle == 0)//down
         {
-            changeHeight(-hoverHeights.x);
+           carAngle = returnZero(carAngle,returnAngle);
         }
-        else if(inputVerticle > 0)//up
+        else
         {
-            changeHeight(hoverHeights.y);
-        }
-        else//not pressed
-        {
-            carAngle = returnZero(carAngle,returnAngle);
+            changeHeight(inputVerticle);
         }
     }
 
-    private void changeHeight(float newHeight)
+    private void changeHeight(float dir)
     {
+        /*
         Vector3 originalPos = transform.position;
         Vector3 goPos = originalPos;
         goPos.y = defaultHeight + newHeight;
         Vector3 newPos = Vector3.Lerp(originalPos, goPos, heighChangeSpeed * Time.deltaTime);
         transform.position = newPos;
+        */
+
+        transform.Translate(Vector3.up * dir * heighChangeSpeed * Time.deltaTime);
+        Vector3 originalPos = transform.position;
+        float setHeight = Mathf.Clamp(originalPos.y, defaultHeight-hoverHeights.x, defaultHeight+hoverHeights.y);
+        originalPos.y = setHeight;
+        transform.position = originalPos;
+
     }
 
     private void checkBrake()
     {
-        if(Input.GetMouseButton(1))//right mouse button to break
+        if(Input.GetMouseButtonDown(1))//right mouse button to break
         {
             carRb.drag = brakeDrag;
         }
-        else
+        if(Input.GetMouseButtonUp(1))
         {
             carRb.drag = defaultDrag;
         }
@@ -188,18 +196,21 @@ public class Car : MonoBehaviour
             gear = 1;//forward
             engineSpeed = forwardSpeed;
             carUIScript.setGear(1);
+            gearAnim.SetInteger("Gear",1);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2))
         {
             gear = 0;//neutral
             engineSpeed = 0;
             carUIScript.setGear(0);
+            gearAnim.SetInteger("Gear",0);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             gear = -0.5f;//reverse
             engineSpeed = -reverseSpeed;
             carUIScript.setGear(-1);
+            gearAnim.SetInteger("Gear",-1);
         }
     }
 
