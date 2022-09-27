@@ -9,6 +9,9 @@ public class AiManager : MonoBehaviour
     [Tooltip("Route positions")]
     [SerializeField] private List<Transform> routePoints = new List<Transform>();
 
+    [Tooltip("Player Car for the police to chase")]
+    [SerializeField] private Transform playerCar;
+
     [Header("Spawn Information")]
 
     [Tooltip("Time between new car spawns")]
@@ -16,6 +19,10 @@ public class AiManager : MonoBehaviour
 
     [Tooltip("Max amount of spawned cars in the world")]
     [SerializeField] private int maxSpawns = 300;
+
+    
+    [Tooltip("Base movement car")]
+    [SerializeField] private GameObject spawnCarObj;
 
     [Tooltip("Spawn car informations")]
     [SerializeField] private AiCarInformation[] aiInformations;
@@ -69,13 +76,14 @@ public class AiManager : MonoBehaviour
             spawnCar(i);
         }
 
-        Invoke("spawnCar",timeBetweenSpawns);
+        Invoke("spawnRandomSpot",timeBetweenSpawns);
     }
 
     private void spawnRandomSpot()
     {
         int spawnPoint = Random.Range(0,spawnPoints.Count-1);
         spawnCar(spawnPoint);
+        Invoke("spawnRandomSpot",timeBetweenSpawns);
     }
 
     private void spawnCar(int spawnPoint)
@@ -88,7 +96,7 @@ public class AiManager : MonoBehaviour
                 
                 AiCarInformation currentAi = aiInformations[aiRarities[Random.Range(0,aiRarities.Count)]];
                
-                Transform spawnedAi = Instantiate(currentAi.spawnObject,spawnPos.position,spawnPos.rotation).transform;
+                Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
 
                 AiController controllerScript = spawnedAi.GetComponent<AiController>();
                 controllerScript.setStartInformation(currentAi,this);
@@ -101,7 +109,11 @@ public class AiManager : MonoBehaviour
             }
         }
 
-        Invoke("spawnCar",timeBetweenSpawns);
+    }
+
+    public Transform getPlayer()
+    {
+        return playerCar;
     }
 
 }

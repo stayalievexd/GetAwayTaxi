@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8740fb93f9c30f0468d6f60e2040d538, type: 3}
-  m_Name: DefaultCar-1
+  m_Name: Police
   m_EditorClassIdentifier: 
-  Name: AI-Car
-  spawnObject: {fileID: 3401284294575219437, guid: d47af3e7dd61a8f4399f9f79c29cf0a4,
+  Name: Police-1
+  spawnObject: {fileID: 1125064681704213206, guid: adec64a0a09e57644900b3b2d9c5ed91,
     type: 3}
   minSpeed: 3
   maxSpeed: 9
-  rarity: 3
+  rarity: 1
   police: 0

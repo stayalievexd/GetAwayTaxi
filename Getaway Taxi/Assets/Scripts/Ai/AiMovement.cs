@@ -48,7 +48,6 @@ public class AiMovement : MonoBehaviour
             if(getDistance() <= stoppingDistance)
             {
                 setPoint();
-                Debug.Log("New Point");
             }
         }
     }

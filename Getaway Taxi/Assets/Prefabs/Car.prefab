@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261645602444109}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HoverPositions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261645775113146}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hover Back Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 490261646064541355}
   - component: {fileID: 490261646064541353}
   - component: {fileID: 490261646064541354}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Moved Distance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,8 +209,7 @@ GameObject:
   - component: {fileID: 490261646174392322}
   - component: {fileID: 490261646174392327}
   - component: {fileID: 490261646174392320}
-  - component: {fileID: 490261646174392321}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,20 +280,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &490261646174392321
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490261646174392323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &490261646217157502
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,8 +291,7 @@ GameObject:
   - component: {fileID: 490261646217157501}
   - component: {fileID: 490261646217157490}
   - component: {fileID: 490261646217157491}
-  - component: {fileID: 490261646217157500}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,20 +362,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &490261646217157500
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490261646217157502}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &490261646335076613
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +374,7 @@ GameObject:
   - component: {fileID: 490261646335076633}
   - component: {fileID: 490261646335076634}
   - component: {fileID: 490261646335076635}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Car Ui
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,10 +476,11 @@ GameObject:
   - component: {fileID: 490261646337334557}
   - component: {fileID: 490261646337334556}
   - component: {fileID: 490261646337334547}
+  - component: {fileID: 6405215726740731291}
   - component: {fileID: 490261646337334558}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Car
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,7 +494,7 @@ Transform:
   m_GameObject: {fileID: 490261646337334552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.8028963, y: 9.70341, z: 5.898982}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 490261646642239883}
   - {fileID: 490261645602444109}
@@ -554,13 +525,12 @@ MonoBehaviour:
   - {fileID: 490261646477092504}
   - {fileID: 490261645775113146}
   hoverPower: 0.5
-  hoverHeights: {x: 6, y: 6}
+  hoverHeights: {x: 6, y: 10}
   heighChangeSpeed: 7.5
   maxIncline: 45
   inclineSpeed: 50
   returnAngle: 100
-  forwardSpeed: 50
-  reverseSpeed: 25
+  carSpeed: 50
   brakeDrag: 3
   turningSpeed: 100
   maxSteerAngle: 180
@@ -599,6 +569,22 @@ MonoBehaviour:
   statsScript: {fileID: 490261646337334556}
   speedCounter: {fileID: 490261647611594186}
   movedDistance: {fileID: 490261646064541354}
+--- !u!114 &6405215726740731291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490261646337334552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa422bb27ca17248acc0e8abab08c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceMultiplier: {x: 4, y: 10}
+  backwardsForce: {x: 10, y: 40}
+  statsScript: {fileID: 490261646337334556}
+  carRb: {fileID: 490261646337334558}
 --- !u!54 &490261646337334558
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -624,7 +610,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261646358220607}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hover Front left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +640,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261646394403585}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mirrors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +673,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261646477092504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hover Back left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,7 +706,7 @@ GameObject:
   - component: {fileID: 490261646485590452}
   - component: {fileID: 490261646485590453}
   - component: {fileID: 490261646485590454}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +800,7 @@ GameObject:
   - component: {fileID: 490261646572348063}
   - component: {fileID: 490261646572348061}
   - component: {fileID: 490261646572348062}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -896,7 +882,7 @@ GameObject:
   - component: {fileID: 490261646642239880}
   - component: {fileID: 490261646642239881}
   - component: {fileID: 490261646642239882}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CubeBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +977,7 @@ GameObject:
   - component: {fileID: 490261646661435073}
   - component: {fileID: 490261646661435074}
   - component: {fileID: 490261646661435075}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1083,7 +1069,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261646680085558}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1117,7 +1103,7 @@ GameObject:
   - component: {fileID: 490261646699786849}
   - component: {fileID: 490261646699786855}
   - component: {fileID: 490261646699786848}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Cost ride
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1249,7 +1235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261646719666491}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: TrustPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1282,7 +1268,7 @@ GameObject:
   - component: {fileID: 490261646793178687}
   - component: {fileID: 490261646793178680}
   - component: {fileID: 490261646793178681}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1377,7 +1363,7 @@ GameObject:
   - component: {fileID: 490261646907946437}
   - component: {fileID: 490261646907946438}
   - component: {fileID: 490261646907946439}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1471,8 +1457,7 @@ GameObject:
   - component: {fileID: 490261647068454309}
   - component: {fileID: 490261647068454330}
   - component: {fileID: 490261647068454331}
-  - component: {fileID: 490261647068454308}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Center Mirror
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1543,20 +1528,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &490261647068454308
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490261647068454310}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &490261647228845330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261647228845329}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1598,7 +1569,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261647373799207}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hover Front Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1631,7 +1602,7 @@ GameObject:
   - component: {fileID: 490261647598021886}
   - component: {fileID: 490261647598021887}
   - component: {fileID: 490261647598021880}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fps Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1675,7 +1646,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -1683,7 +1654,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 33
+    m_Bits: 673
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1728,7 +1699,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261647610630042}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SteeringWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1761,7 +1732,7 @@ GameObject:
   - component: {fileID: 490261647611594187}
   - component: {fileID: 490261647611594185}
   - component: {fileID: 490261647611594186}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Speed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1893,7 +1864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 490261647664914209}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1924,7 +1895,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7858248888745861743}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Angle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1956,7 +1927,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697936951706268315}
   - component: {fileID: 1083585734}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GearBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2008,7 +1979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5440259620529493199}
   - component: {fileID: 6176997737722944480}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2060,7 +2031,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 641
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 04479e33caed4ac4786bec4cd212a955, type: 2}
   m_TargetDisplay: 0
@@ -2082,7 +2053,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3115157684663725941}
   - component: {fileID: 3979499285578443751}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2134,7 +2105,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 641
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 396af64ba679f1c429c51f0e8513312d, type: 2}
   m_TargetDisplay: 0
@@ -2156,7 +2127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073476277484159431}
   - component: {fileID: 4434641329665586253}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2208,7 +2179,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 641
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: ffc6639f831808b4581a7dcc679f3cbf, type: 2}
   m_TargetDisplay: 0
