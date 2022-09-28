@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8740fb93f9c30f0468d6f60e2040d538, type: 3}
-  m_Name: Police
+  m_Name: DoubleBus
   m_EditorClassIdentifier: 
-  Name: Police-1
-  spawnObject: {fileID: 1125064681704213206, guid: adec64a0a09e57644900b3b2d9c5ed91,
+  Name: AI-Car
+  spawnObject: {fileID: 4359730103388870725, guid: 21d08972020ddc24d994b6330548eb65,
     type: 3}
-  patrolSpeed: {x: 12, y: 18}
+  patrolSpeed: {x: 5, y: 8}
   chaseSpeed: {x: 10, y: 15}
   rarity: 1
   police: 0

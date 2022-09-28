@@ -55,9 +55,6 @@ public class CrashedState : State
             boostTime -= 1 * Time.deltaTime;
         }
 
-        // Vector3 backAngle = Vector3.Lerp(carRb.transform.eulerAngles, transform.eulerAngles, followSpeed * Time.deltaTime);
-        // carRb.transform.eulerAngles = backAngle;
-
         return this;
     }
 

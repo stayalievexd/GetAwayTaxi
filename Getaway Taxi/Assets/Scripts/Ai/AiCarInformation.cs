@@ -13,13 +13,13 @@ public class AiCarInformation : ScriptableObject
     [Header("Gameobjects")]
     public GameObject spawnObject;
 
-    [Header("Floats")]
+    [Header("Patrolling")]
 
-    [Tooltip("The min amount for the random speed the cars get")]
-    public float minSpeed = 3;
+    [Tooltip("The min and max speed the car gets for patrolling")]
+    public Vector2 patrolSpeed = new Vector2(3,9);
 
-    [Tooltip("The max amount for the random speed the cars get")]
-    public float maxSpeed = 9;
+    [Tooltip("The min and max speed the car gets for chasing")]
+    public Vector2 chaseSpeed = new Vector2(10,15);
 
     [Header("Ints")]
     public int rarity = 1;

@@ -10,7 +10,7 @@ public class BlockadeTrap : MonoBehaviour
     private Transform[] spawnPoints;
     private Transform[] goPoints;
     private AiCarInformation[] spawnCars;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.root.gameObject.tag == "Player")
