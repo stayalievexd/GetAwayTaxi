@@ -478,6 +478,7 @@ GameObject:
   - component: {fileID: 490261646337334547}
   - component: {fileID: 6405215726740731291}
   - component: {fileID: 490261646337334558}
+  - component: {fileID: 1501630651}
   m_Layer: 9
   m_Name: Car
   m_TagString: Player
@@ -601,6 +602,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 1
+--- !u!114 &1501630651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490261646337334552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6675405994b347f45b59b9219a5d7d49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coughtDistance: 15
+  checkLayers:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &490261646358220600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,6 +1619,7 @@ GameObject:
   - component: {fileID: 490261647598021886}
   - component: {fileID: 490261647598021887}
   - component: {fileID: 490261647598021880}
+  - component: {fileID: 520897904}
   m_Layer: 9
   m_Name: Fps Camera
   m_TagString: Untagged
@@ -1654,7 +1672,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 673
+    m_Bits: 1697
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1690,6 +1708,66 @@ MonoBehaviour:
   playerBody: {fileID: 490261647664914209}
   minAngle: -65
   maxAngel: 90
+--- !u!114 &520897904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490261647598021882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 490261647598021881}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1 &490261647610630043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,7 +2109,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 04479e33caed4ac4786bec4cd212a955, type: 2}
   m_TargetDisplay: 0
@@ -2105,7 +2183,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 396af64ba679f1c429c51f0e8513312d, type: 2}
   m_TargetDisplay: 0
@@ -2179,7 +2257,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 641
+    m_Bits: 1665
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: ffc6639f831808b4581a7dcc679f3cbf, type: 2}
   m_TargetDisplay: 0

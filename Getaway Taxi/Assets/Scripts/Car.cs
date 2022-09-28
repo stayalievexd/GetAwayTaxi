@@ -124,7 +124,7 @@ public class Car : MonoBehaviour
             steerAngle = returnZero(steerAngle,returnSteerSpeed);//returns steering wheel to 0
         }
 
-        transform.Rotate(Vector3.up * procentageAngle());//rotates car in steering direction
+        transform.Rotate(Vector3.up * procentageAngle() * Time.deltaTime * 150);//rotates car in steering direction
         setSteering();//temp controlls for pc playing
     }
 

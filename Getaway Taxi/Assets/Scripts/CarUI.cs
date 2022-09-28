@@ -26,7 +26,6 @@ public class CarUI : MonoBehaviour
     private void Start()
     {
         Screen.lockCursor = true; 
-        // Cursor.visible = false;
     }
 
     private void Update()

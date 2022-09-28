@@ -18,4 +18,4 @@ MonoBehaviour:
   patrolSpeed: {x: 12, y: 18}
   chaseSpeed: {x: 10, y: 15}
   rarity: 1
-  police: 0
+  police: 1

@@ -45,7 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stoppingDistance: 5
   agent: {fileID: 1961178406289461257}
-  aiManagerScript: {fileID: 0}
   canSeePlayer: 0
   ChaseState: {fileID: 4778541752906240366}
 --- !u!1 &1961178406289461263
@@ -58,8 +57,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1961178406289461258}
   - component: {fileID: -1176230348314525122}
-  - component: {fileID: 9012994388654893121}
   - component: {fileID: 1163801442807237055}
+  - component: {fileID: -7065704200662371857}
   - component: {fileID: 1961178406289461256}
   - component: {fileID: 1961178406289461257}
   m_Layer: 7
@@ -99,20 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolState: {fileID: 1702632467473752863}
   chaseState: {fileID: 4778541752906240366}
-  movementScript: {fileID: 0}
+  lookScript: {fileID: -7065704200662371857}
   bodyHolder: {fileID: 1961178406644012327}
---- !u!114 &9012994388654893121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1961178406289461263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b0120a6e6e04744684cec1cf349d83f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1163801442807237055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +115,30 @@ MonoBehaviour:
   currentState: {fileID: 7022471722977093163}
   crashedState: {fileID: 8548493302431154918}
   crashed: 0
+--- !u!114 &-7065704200662371857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961178406289461263}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f673a6e9528a694eaf38a322b086017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseState: {fileID: 4778541752906240366}
+  ambushState: {fileID: 1936890062125736199}
+  patrolState: {fileID: 1702632467473752863}
+  viewDistance: 300
+  triggerDistance: 40
+  maxNoViewTime: 150
+  checkLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  viewLayers:
+    serializedVersion: 2
+    m_Bits: 1537
 --- !u!54 &1961178406289461256
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -216,6 +227,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &2236699252512340712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5587828993684836470}
+  - component: {fileID: 1936890062125736199}
+  m_Layer: 7
+  m_Name: AmbushState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5587828993684836470
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236699252512340712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7498589091890584737}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -47.90948, y: -34.430714, z: -11.558573}
+--- !u!114 &1936890062125736199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2236699252512340712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 187a9860dfcf0314d9bd34a26b64ca38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaseState: {fileID: 4778541752906240366}
+  canSeePlayer: 0
 --- !u!1 &2533901557043891410
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19625c2cb72e82949a274db347dbfcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1961178406289461257}
   ramState: {fileID: 7791013218983434920}
   patrolState: {fileID: 1702632467473752863}
   isInAttackRage: 0
@@ -455,6 +512,7 @@ Transform:
   - {fileID: 125790260929046088}
   - {fileID: 7120139817516438925}
   - {fileID: 4594734851384743203}
+  - {fileID: 5587828993684836470}
   m_Father: {fileID: 1961178406289461258}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

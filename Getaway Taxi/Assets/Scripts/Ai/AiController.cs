@@ -12,22 +12,25 @@ public class AiController : MonoBehaviour
     [SerializeField] private ChaseState chaseState;
 
     [Header("Set private data")]
-    [SerializeField] private AiMovement movementScript;
+    [SerializeField] private AiLook lookScript;
     [SerializeField] private Transform bodyHolder;
 
     [Header("private data")]
     private GameObject spawnedBody;
     private AiCarInformation aiInformation;
+    private CarBodyScript bodyScript = null;
 
     public void setStartInformation(AiCarInformation newInformation,AiManager managerScript)
     {   
         aiInformation = newInformation;
         patrolState.setStart(managerScript,newInformation);
         spawncarBody();
+        lookScript.enabled = newInformation.police;//disable for testing
     }
 
     public void spawncarBody()//spawns the body of the car
     {
         spawnedBody = Instantiate(aiInformation.spawnObject,bodyHolder.position,bodyHolder.rotation,bodyHolder);
+        chaseState.setStart(aiInformation,spawnedBody.GetComponent<CarBodyScript>());
     }
 }

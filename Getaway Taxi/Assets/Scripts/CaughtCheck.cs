@@ -10,13 +10,31 @@ public class CaughtCheck : MonoBehaviour
         
     */
 
-    void Update()
+    [Header("Caught Settings")]
+    
+    [Tooltip("Distance checked for police cars")]
+    [SerializeField] private float coughtDistance = 100;
+
+    [Tooltip("Distance checked for police cars")]
+    [SerializeField] private LayerMask checkLayers;
+
+    void FixedUpdate()
     {
-        checkCopRadius();
+        // checkCopRadius();
     }
 
     private void checkCopRadius()
     {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, coughtDistance,checkLayers);
+        // foreach (var hitCollider in hitColliders)
+        // {
+        //     // Debug.Log(hitColliders.Length);
+        // }
+    }
 
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, coughtDistance);
     }
 }

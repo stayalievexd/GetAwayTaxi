@@ -105,6 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3443696697758084675}
   - component: {fileID: 6031275136347867013}
+  - component: {fileID: 3094527629657527109}
   m_Layer: 7
   m_Name: Motor
   m_TagString: CopAi
@@ -145,6 +146,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: -1.05, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3094527629657527109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443696697758084674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a3aeacdf05556429b609bfc51ad708, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseAnim: {fileID: 0}
 --- !u!1 &4250703788816770639
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,38 +9,41 @@ public class AiManager : MonoBehaviour
     [Tooltip("Route positions")]
     [SerializeField] private List<Transform> routePoints = new List<Transform>();
 
-    [Tooltip("Player Car for the police to chase")]
-    [SerializeField] private Transform playerCar;
-
-    [Header("Spawn Settings")]
-
+    [Header("Cops Spawn Settings")]
+    
     [Tooltip("Time between new car spawns")]
-    [SerializeField] private float timeBetweenSpawns = 2.0f;
-
-    [Tooltip("Max amount of default spawned cars in the world")]
-    [SerializeField] private int maxCiv = 300;
+    [SerializeField] private float copSpawnTime = 0.2f;
 
     [Tooltip("Max amount cops spawned cars in the world")]
-    [SerializeField] private int maxCops = 300;
+    [SerializeField] private int maxCops = 50;
 
-     [Header("Spawn Information")]
-    
-    [Tooltip("Base movement car")]
-    [SerializeField] private GameObject spawnCarObj;
-
-    [Tooltip("Spawn car informations")]
-    [SerializeField] private AiCarInformation[] civAi;
+    [Tooltip("Cop Spawn positions")]
+    [SerializeField] private List<Transform> copSpawns = new List<Transform>();
 
     [Tooltip("Spawn car informations")]
     [SerializeField] private AiCarInformation[] copAis;
+    
+    [Header("Civ Spawn Settings")]
+
+    [Tooltip("Time between new car spawns")]
+    [SerializeField] private float timeBetweenSpawns = 0.2f;
+
+    [Tooltip("Max amount of default spawned cars on each spawn height")]
+    [SerializeField] private int[] maxCiv = {100,50,100,100};
 
     [Tooltip("Spawn positions")]
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
 
+    [Tooltip("Spawn car informations")]
+    [SerializeField] private AiCarInformation[] civAi;
+
+    [Tooltip("Base movement car")]
+    [SerializeField] private GameObject spawnCarObj;
+
+
     [Header("Private Information")]
     private List<Transform> spawnedCars = new List<Transform>();
     private List<Transform> spawnedCops = new List<Transform>();
-
     private List<int> aiRarities = new List<int>();
     private List<int> copRarities = new List<int>();
 
@@ -48,17 +51,6 @@ public class AiManager : MonoBehaviour
     {
         setAiRarities();
         startSpawn();
-    }
-
-    private void setAiRarities()//makes a list with all ids of the ai's for a simple rarity effect
-    {
-        for(int i=0; i<civAi.Length; i++)
-        {
-            for(int b=0; b<civAi[i].rarity; b++)
-            {
-                aiRarities.Add(i);
-            }
-        }
     }
 
     public Transform getNewPoint(Transform lastPos)
@@ -79,6 +71,28 @@ public class AiManager : MonoBehaviour
         return newReturn;
     }
 
+    /////////////spawning "Ai" ///has duplicate code for now can be better optimized 
+
+    private void setAiRarities()//makes a list with all ids of the ai's for a simple rarity effect
+    {
+        for(int i=0; i<civAi.Length; i++)
+        {
+            for(int b=0; b<civAi[i].rarity; b++)
+            {
+                aiRarities.Add(i);
+            }
+        }
+
+        for(int i=0; i<copAis.Length; i++)
+        {
+            for(int b=0; b<copAis[i].rarity; b++)
+            {
+                copRarities.Add(i);
+            }
+        }
+    }
+
+    //start function
     private void startSpawn()
     {
         for(int i=0; i<spawnPoints.Count; i++)
@@ -86,22 +100,41 @@ public class AiManager : MonoBehaviour
             spawnCar(i);
         }
 
+        for(int i=0; i<copSpawns.Count; i++)
+        {
+            spawnCop(i);
+        }
+
+        Invoke("randomCopSpawn",copSpawnTime);
         Invoke("spawnRandomSpot",timeBetweenSpawns);
     }
 
+
+    //invokes
     private void spawnRandomSpot()
     {
         int spawnPoint = Random.Range(0,spawnPoints.Count-1);
-        spawnCar(spawnPoint);
         Invoke("spawnRandomSpot",timeBetweenSpawns);
+        spawnCar(spawnPoint);
+    }
+
+    private void randomCopSpawn()
+    {
+        int spawnPoint = Random.Range(0,copSpawns.Count-1);
+        Invoke("randomCopSpawn",copSpawnTime);
+        spawnCop(spawnPoint);
     }
 
     private void spawnCar(int spawnPoint)
     {
-        for(int i=0; i<3; i++)
+        int b = 4;
+        for(int i=0; i<4; i++)
         {
-            if(spawnedCars.Count < maxCiv)
+            if(maxCiv[i] > 0)
             {
+                maxCiv[i] --;
+                b--;
+
                 Transform spawnPos = spawnPoints[spawnPoint].GetChild(i);
                 
                 AiCarInformation currentAi = civAi[aiRarities[Random.Range(0,aiRarities.Count)]];
@@ -113,16 +146,31 @@ public class AiManager : MonoBehaviour
 
                 spawnedCars.Add(spawnedAi);
             }
-            else
-            {
-                return;
-            }
+        }
+
+        if(b == 4)//if all spawned
+        {
+            CancelInvoke("spawnRandomSpot");
         }
     }
 
-    public Transform getPlayer()
+    private void spawnCop(int spawnPoint)
     {
-        return playerCar;
+        if(maxCops > 0)
+        {
+            maxCops --;
+
+            Transform spawnPos = copSpawns[spawnPoint];
+                
+            AiCarInformation currentAi = copAis[copRarities[Random.Range(0,copRarities.Count)]];
+            
+            Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
+
+            AiController controllerScript = spawnedAi.GetComponent<AiController>();
+            controllerScript.setStartInformation(currentAi,this);
+
+            spawnedCops.Add(spawnedAi);
+        }
     }
 
 }
