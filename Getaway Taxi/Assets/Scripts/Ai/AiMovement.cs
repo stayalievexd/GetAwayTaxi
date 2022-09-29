@@ -14,31 +14,26 @@ public class AiMovement : MonoBehaviour
 
     [Tooltip("Main AI Manager Script")]
     [SerializeField] private float stoppingDistance = 5;
+    [SerializeField] private bool sceneAi = false;
 
     [Header("AI Components")]
 
     [Tooltip("Nav Mesh Agent of the Ai")]
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private AiManager aiManagerScript;
+    [SerializeField] private AiCarInformation currentInfo;
 
     [Header("Private Data")]
-    private AiManager aiManagerScript;
-    private AiCarInformation currentInfo;
-    private int state = 0;
     private Transform currentPos = null;
     private Vector2 goV2;
     private float remainDistance;//so i can see it in the debugger
 
-    public void setStart(AiManager managerScript,AiCarInformation info)//start function gets called from the controller of the car
+    public void Start()
     {
-        aiManagerScript = managerScript;
-        currentInfo = info;
-        setStats();
-        setPoint();
-    }
-
-    private void setStats()
-    {
-        //sets navmesh agent data with the currentInfo
+        if(sceneAi)
+        {
+            setPoint();
+        }
     }
 
     void Update()
@@ -48,7 +43,6 @@ public class AiMovement : MonoBehaviour
             if(getDistance() <= stoppingDistance)
             {
                 setPoint();
-                Debug.Log("New Point");
             }
         }
     }

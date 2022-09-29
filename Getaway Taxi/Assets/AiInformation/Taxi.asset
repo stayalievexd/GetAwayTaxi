@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8740fb93f9c30f0468d6f60e2040d538, type: 3}
+  m_Name: Taxi
+  m_EditorClassIdentifier: 
+  Name: AI-Car
+  spawnObject: {fileID: 8141496090474005367, guid: b2e2fecfd9b63dd408fb952e45d58bbd,
+    type: 3}
+  patrolSpeed: {x: 6, y: 13}
+  chaseSpeed: {x: 10, y: 15}
+  rarity: 1
+  police: 0

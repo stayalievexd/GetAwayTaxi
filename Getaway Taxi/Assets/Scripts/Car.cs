@@ -30,10 +30,7 @@ public class Car : MonoBehaviour
     [Header("Car Movement Speed:")]
 
     [Tooltip("Engine Forward Speed")]
-    [SerializeField] private float forwardSpeed = 50;
-
-    [Tooltip("Engine reverse Speed")]
-    [SerializeField] private float reverseSpeed = 25;
+    [SerializeField] private float carSpeed = 50;
 
     [Tooltip("The dragg of the car when brake enabled")]
     [SerializeField] private float brakeDrag = 5;
@@ -76,7 +73,6 @@ public class Car : MonoBehaviour
     private float gear = 0; // - = reverse // 0 = neutral // + = forward
     private float steerAngle = 0; // current angle of the steering wheel
     private float carAngle = 0; // current down angle of the car
-    private float engineSpeed = 0;
     private float defaultDrag = 0;
     private float defaultHeight;
 
@@ -102,30 +98,19 @@ public class Car : MonoBehaviour
 
     void Update()
     {
-        setGear();//gets gear inputs temp for pc playing
-        checkBrake();//checks if the brake button is pressed
+        // setGear();//gets gear inputs temp for pc playing
+        // checkBrake();//checks if the brake button is pressed//not used anymore kept as a backup
         accelerate();//acelerating forward or backwards function
         steering();//steering left and right
-        inclineCar();//incline car angle down and up
-        // keepHeight();//keeps the height of the car
-    }
-
-    private void keepHeight()
-    {   
-        foreach(Transform HoverPoint in HoverPoints)
-        {
-            RaycastHit hit;
-            if(Physics.Raycast(HoverPoint.position, transform.TransformDirection(Vector3.down), out hit, hoverHeights.y))
-            {
-                carRb.AddForceAtPosition(transform.TransformDirection(Vector3.up) * Mathf.Pow(hit.distance,2)/hoverHeights.y * hoverPower,HoverPoint.position * Time.deltaTime);
-            }
-        }
+        // inclineCar();//incline car angle down and up //not used anymore car stays at one height
+        // keepHeight();//keeps the height of the car //not used anymore kept as a backup
     }
 
     private void accelerate()
     {
-        int gass = Input.GetMouseButton(0) ? 1 : 0;/////with the vr controller it can be like a real gass pedle where you dont fully press the trigger down
-        carRb.AddForceAtPosition(trustPos.forward * engineSpeed * gass * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
+        int gass = (Input.GetMouseButton(0) ? 1 : 0) + (Input.GetMouseButton(1) ? -1 : 0);/////with the vr controller it can be like a real gass pedle where you dont fully press the trigger down
+        carUIScript.setGear(gass);
+        carRb.AddForceAtPosition(trustPos.forward * carSpeed * gass * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
     }
 
     private void steering()
@@ -139,8 +124,21 @@ public class Car : MonoBehaviour
             steerAngle = returnZero(steerAngle,returnSteerSpeed);//returns steering wheel to 0
         }
 
-        transform.Rotate(Vector3.up * procentageAngle());//rotates car in steering direction
-        setSteering();//temp for pc playing
+        transform.Rotate(Vector3.up * procentageAngle() * Time.deltaTime * 150);//rotates car in steering direction
+        setSteering();//temp controlls for pc playing
+    }
+
+
+    private void keepHeight()
+    {   
+        foreach(Transform HoverPoint in HoverPoints)
+        {
+            RaycastHit hit;
+            if(Physics.Raycast(HoverPoint.position, transform.TransformDirection(Vector3.down), out hit, hoverHeights.y))
+            {
+                carRb.AddForceAtPosition(transform.TransformDirection(Vector3.up) * Mathf.Pow(hit.distance,2)/hoverHeights.y * hoverPower,HoverPoint.position * Time.deltaTime);
+            }
+        }
     }
 
     private void inclineCar()
@@ -194,21 +192,18 @@ public class Car : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             gear = 1;//forward
-            engineSpeed = forwardSpeed;
             carUIScript.setGear(1);
             gearAnim.SetInteger("Gear",1);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha2))
         {
             gear = 0;//neutral
-            engineSpeed = 0;
             carUIScript.setGear(0);
             gearAnim.SetInteger("Gear",0);
         }
         else if(Input.GetKeyDown(KeyCode.Alpha3))
         {
             gear = -0.5f;//reverse
-            engineSpeed = -reverseSpeed;
             carUIScript.setGear(-1);
             gearAnim.SetInteger("Gear",-1);
         }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DefaultCar-1
   m_EditorClassIdentifier: 
   Name: AI-Car
-  spawnObject: {fileID: 1961178406289461263, guid: 5d843fcf9cb717e489f6fbfbba2de7d9,
+  spawnObject: {fileID: 3401284294575219437, guid: d47af3e7dd61a8f4399f9f79c29cf0a4,
     type: 3}
-  minSpeed: 3
-  maxSpeed: 9
-  rarity: 1
+  patrolSpeed: {x: 8, y: 12}
+  chaseSpeed: {x: 10, y: 15}
+  rarity: 3
   police: 0
