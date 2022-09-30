@@ -9,7 +9,7 @@ public class PatrolState : State
     [Header("AI Settings")]
 
     [Tooltip("Main AI Manager Script")]
-    [SerializeField] private float stoppingDistance = 5;
+    [SerializeField] private float stoppingDistance = 10;
 
     [Header("AI Components")]
 
@@ -28,12 +28,12 @@ public class PatrolState : State
     public bool canSeePlayer;
     public ChaseState ChaseState;
 
-    public void setStart(AiManager managerScript,AiCarInformation info)//start function gets called from the controller of the car
+    public void setStart(AiManager managerScript,AiCarInformation info,Transform startDest)//start function gets called from the controller of the car
     {
         carInfo = info;
         aiManagerScript = managerScript;
         setStats();
-        setPoint();
+        setDest(startDest);
     }
 
     private void setStats()
@@ -67,7 +67,7 @@ public class PatrolState : State
         {
             if(getDistance() <= stoppingDistance)
             {
-                setPoint();
+                setNextPoint();
             }
         }
     }
@@ -78,14 +78,20 @@ public class PatrolState : State
         remainDistance = (goV2-currentV2).magnitude;
         
         return remainDistance;
+    }   
+
+    public void setNextPoint()
+    {
+        Transform newPostition = currentPos.GetComponent<NextPoint>().nextPoint();
+        setDest(newPostition);
     }
 
-    public void setPoint()
+    public void setDest(Transform newPostition)
     {
-        Transform newPostition = aiManagerScript.getNewPoint(currentPos);
-        agent.SetDestination(newPostition.position);
-        setRandomSpeed();
         currentPos = newPostition;
         goV2 = new Vector2(currentPos.position.x,currentPos.position.z);
+        Vector3 newDest = new Vector3(currentPos.position.x,transform.root.transform.position.y,currentPos.position.z);
+        agent.SetDestination(newDest);
+        setRandomSpeed();
     }
 }

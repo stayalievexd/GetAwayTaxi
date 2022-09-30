@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Police-1
   spawnObject: {fileID: 1125064681704213206, guid: adec64a0a09e57644900b3b2d9c5ed91,
     type: 3}
-  patrolSpeed: {x: 12, y: 18}
+  patrolSpeed: {x: 6, y: 9}
   chaseSpeed: {x: 10, y: 15}
   rarity: 1
   police: 1

@@ -18,12 +18,14 @@ public class AiController : MonoBehaviour
     [Header("private data")]
     private GameObject spawnedBody;
     private AiCarInformation aiInformation;
+    private AiManager managerScript;
     private CarBodyScript bodyScript = null;
 
-    public void setStartInformation(AiCarInformation newInformation,AiManager managerScript)
+    public void setStartInformation(AiCarInformation newInformation,AiManager newManager,Transform startPos)
     {   
         aiInformation = newInformation;
-        patrolState.setStart(managerScript,newInformation);
+        managerScript = newManager;
+        patrolState.setStart(managerScript,newInformation,startPos);
         spawncarBody();
         lookScript.enabled = newInformation.police;//disable for testing
     }
@@ -31,6 +33,6 @@ public class AiController : MonoBehaviour
     public void spawncarBody()//spawns the body of the car
     {
         spawnedBody = Instantiate(aiInformation.spawnObject,bodyHolder.position,bodyHolder.rotation,bodyHolder);
-        chaseState.setStart(aiInformation,spawnedBody.GetComponent<CarBodyScript>());
+        chaseState.setStart(managerScript,aiInformation,spawnedBody.GetComponent<CarBodyScript>());
     }
 }

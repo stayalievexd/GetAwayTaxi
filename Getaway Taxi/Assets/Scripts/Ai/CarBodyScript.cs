@@ -10,6 +10,7 @@ public class CarBodyScript : MonoBehaviour
     {
         if(chaseAnim)
         {
+            Debug.Log(active);
             chaseAnim.SetBool("Chase",chaseAnim);
         }
     }

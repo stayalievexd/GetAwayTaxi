@@ -53,24 +53,6 @@ public class AiManager : MonoBehaviour
         startSpawn();
     }
 
-    public Transform getNewPoint(Transform lastPos)
-    {
-        Transform newReturn = null;
-        if(lastPos == null)
-        {
-            newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
-        }
-        else
-        {
-            while(newReturn == null || newReturn == lastPos)
-            {
-                newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
-            }
-        }
-
-        return newReturn;
-    }
-
     /////////////spawning "Ai" ///has duplicate code for now can be better optimized 
 
     private void setAiRarities()//makes a list with all ids of the ai's for a simple rarity effect
@@ -138,11 +120,12 @@ public class AiManager : MonoBehaviour
                 Transform spawnPos = spawnPoints[spawnPoint].GetChild(i);
                 
                 AiCarInformation currentAi = civAi[aiRarities[Random.Range(0,aiRarities.Count)]];
-               
+
                 Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
+                Transform startDes = spawnPoints[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
                 AiController controllerScript = spawnedAi.GetComponent<AiController>();
-                controllerScript.setStartInformation(currentAi,this);
+                controllerScript.setStartInformation(currentAi,this,startDes);
 
                 spawnedCars.Add(spawnedAi);
             }
@@ -165,12 +148,50 @@ public class AiManager : MonoBehaviour
             AiCarInformation currentAi = copAis[copRarities[Random.Range(0,copRarities.Count)]];
             
             Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
+            Transform startDes = spawnPoints[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
             AiController controllerScript = spawnedAi.GetComponent<AiController>();
-            controllerScript.setStartInformation(currentAi,this);
+            controllerScript.setStartInformation(currentAi,this,startDes);
 
             spawnedCops.Add(spawnedAi);
         }
+    }
+
+    public Transform getClosedNext(Transform carTrans)
+    {
+        Transform closedPos = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = carTrans.position;
+        foreach (Transform pos in routePoints)
+        {
+            float dist = Vector3.Distance(pos.position, currentPos);
+            if (dist < minDist)
+            {
+                closedPos = pos;
+                minDist = dist;
+            }
+        }
+        
+        return closedPos;
+    }
+
+    /* the old point system where they get a random point assigned */
+    public Transform getNewPoint(Transform lastPos)
+    {
+        Transform newReturn = null;
+        if(lastPos == null)
+        {
+            newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
+        }
+        else
+        {
+            while(newReturn == null || newReturn == lastPos)
+            {
+                newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
+            }
+        }
+
+        return newReturn;
     }
 
 }

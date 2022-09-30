@@ -6,39 +6,24 @@ public class Car : MonoBehaviour
 {
     [Header("Hover Settings")]
 
-    [Tooltip("position the ground is checked from")]
-    [SerializeField] private Transform[] HoverPoints;
-
-    [Tooltip("Power of hover trusters")]
-    [SerializeField] private float hoverPower = 100;
-
     [Tooltip("Min hover height and Max hover height")]
     [SerializeField] private Vector2 hoverHeights = new Vector2(0.6f,5.0f);
 
     [Tooltip("The speed the car goes up and down in height")]
     [SerializeField] private float heighChangeSpeed = 2.5f;
 
-    [Tooltip("Max incline angle of car up and down")]
-    [SerializeField] private float maxIncline = 45;
-
-    [Tooltip("Speed car angles down or up")]
-    [SerializeField] private float inclineSpeed = 50;
-
-    [Tooltip("Speed car angle returns to 0")]
-    [SerializeField] private float returnAngle = 100;
-
     [Header("Car Movement Speed:")]
 
+    [Tooltip("Max Car Speed")]
+    [SerializeField] private Vector2 maxSpeed = new Vector2(50,30);
+
     [Tooltip("Engine Forward Speed")]
-    [SerializeField] private float carSpeed = 50;
+    [SerializeField] private float accelerateSpeed = 50;
 
-    [Tooltip("The dragg of the car when brake enabled")]
-    [SerializeField] private float brakeDrag = 5;
-    
+    [Tooltip("Engine stopping speed")]
+    [SerializeField] private float decerateSpeed = 25;
+
     [Header("Steering Wheel settings")]
-
-    [Tooltip("Speed car turns at")]
-    [SerializeField] private float turningSpeed = 100;
 
     [Tooltip("max angle of steering wheel in either direction")]
     [SerializeField] private float maxSteerAngle = 180;
@@ -60,9 +45,6 @@ public class Car : MonoBehaviour
     [Tooltip("Rigidbody of car gameobject")]
     [SerializeField] private Rigidbody carRb;
 
-    [Tooltip("Gear stick Animator")]
-    [SerializeField] private Animator gearAnim;
-
     [Header("Scripts")]
 
     [Tooltip("Script for the ui in the car")]
@@ -74,18 +56,16 @@ public class Car : MonoBehaviour
     private float steerAngle = 0; // current angle of the steering wheel
     private float carAngle = 0; // current down angle of the car
     private float defaultDrag = 0;
+    private float acelleration = 0;
     private float defaultHeight;
 
     /*
         Controls for now to test with pc : 
 
         a-d to steer left to right hold space to "hold" the steering weel
-        w-s to go up and down 
-        left mouse button to accelerate
-        right mouse button to brake
-        1 to go in to forward 
-        2 to go in to neutral
-        3 to go in to reverse
+        w-s to go up and down //disabled
+        left mouse button to accelerate forwards
+        right mouse button to accelerate backwards
 
         controlls will be maped to controller of the vr headset
     */
@@ -98,19 +78,31 @@ public class Car : MonoBehaviour
 
     void Update()
     {
-        // setGear();//gets gear inputs temp for pc playing
-        // checkBrake();//checks if the brake button is pressed//not used anymore kept as a backup
         accelerate();//acelerating forward or backwards function
         steering();//steering left and right
-        // inclineCar();//incline car angle down and up //not used anymore car stays at one height
-        // keepHeight();//keeps the height of the car //not used anymore kept as a backup
+        // inclineCar();//moves car down and up //not used anymore car stays at one height
     }
 
     private void accelerate()
     {
         int gass = (Input.GetMouseButton(0) ? 1 : 0) + (Input.GetMouseButton(1) ? -1 : 0);/////with the vr controller it can be like a real gass pedle where you dont fully press the trigger down
         carUIScript.setGear(gass);
-        carRb.AddForceAtPosition(trustPos.forward * carSpeed * gass * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
+        addGass(gass);
+        carRb.AddForceAtPosition(trustPos.forward * acelleration * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
+        // carRb.AddForceAtPosition(trustPos.forward * carSpeed * gass * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
+    }
+
+    private void addGass(int gass)
+    {
+        if(gass == 0)
+        {
+            acelleration = returnZero(acelleration,decerateSpeed);
+        }
+        else
+        {
+            acelleration += gass * accelerateSpeed * Time.deltaTime; 
+            acelleration = Mathf.Clamp(acelleration,-maxSpeed.y,maxSpeed.x);
+        }
     }
 
     private void steering()
@@ -125,33 +117,14 @@ public class Car : MonoBehaviour
         }
 
         transform.Rotate(Vector3.up * procentageAngle() * Time.deltaTime * 150);//rotates car in steering direction
+        transform.localEulerAngles = new Vector3(0,transform.localEulerAngles.y,0);
         setSteering();//temp controlls for pc playing
-    }
-
-
-    private void keepHeight()
-    {   
-        foreach(Transform HoverPoint in HoverPoints)
-        {
-            RaycastHit hit;
-            if(Physics.Raycast(HoverPoint.position, transform.TransformDirection(Vector3.down), out hit, hoverHeights.y))
-            {
-                carRb.AddForceAtPosition(transform.TransformDirection(Vector3.up) * Mathf.Pow(hit.distance,2)/hoverHeights.y * hoverPower,HoverPoint.position * Time.deltaTime);
-            }
-        }
     }
 
     private void inclineCar()
     {
         float inputVerticle = Input.GetAxis("Vertical");//using W and S for forward and backward
-        carAngle += (inputVerticle * inclineSpeed) * Time.deltaTime;
-        carAngle = Mathf.Clamp(carAngle, -maxIncline, maxIncline);
-
-        if(inputVerticle == 0)//down
-        {
-           carAngle = returnZero(carAngle,returnAngle);
-        }
-        else
+        if(inputVerticle != 0)
         {
             changeHeight(inputVerticle);
         }
@@ -159,54 +132,12 @@ public class Car : MonoBehaviour
 
     private void changeHeight(float dir)
     {
-        /*
-        Vector3 originalPos = transform.position;
-        Vector3 goPos = originalPos;
-        goPos.y = defaultHeight + newHeight;
-        Vector3 newPos = Vector3.Lerp(originalPos, goPos, heighChangeSpeed * Time.deltaTime);
-        transform.position = newPos;
-        */
-
         transform.Translate(Vector3.up * dir * heighChangeSpeed * Time.deltaTime);
         Vector3 originalPos = transform.position;
         float setHeight = Mathf.Clamp(originalPos.y, defaultHeight-hoverHeights.x, defaultHeight+hoverHeights.y);
         originalPos.y = setHeight;
         transform.position = originalPos;
 
-    }
-
-    private void checkBrake()
-    {
-        if(Input.GetMouseButtonDown(1))//right mouse button to break
-        {
-            carRb.drag = brakeDrag;
-        }
-        if(Input.GetMouseButtonUp(1))
-        {
-            carRb.drag = defaultDrag;
-        }
-    }
-
-    private void setGear()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            gear = 1;//forward
-            carUIScript.setGear(1);
-            gearAnim.SetInteger("Gear",1);
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            gear = 0;//neutral
-            carUIScript.setGear(0);
-            gearAnim.SetInteger("Gear",0);
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            gear = -0.5f;//reverse
-            carUIScript.setGear(-1);
-            gearAnim.SetInteger("Gear",-1);
-        }
     }
 
     private void setSteering()//temp until turned with vr hands
@@ -255,6 +186,11 @@ public class Car : MonoBehaviour
     public float getSpeed()//for displaying car speed
     {
         return carRb.velocity.magnitude;
+    }
+
+    public float getAccel()
+    {
+        return acelleration;
     }
 
 }

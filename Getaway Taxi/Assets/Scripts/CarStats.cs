@@ -40,6 +40,11 @@ public class CarStats : MonoBehaviour
         return distanceMoved;
     }
 
+    public float getAccel()
+    {
+        return carScript.getAccel();
+    }
+
     public float getSpeed()
     {
         return carScript.getSpeed();

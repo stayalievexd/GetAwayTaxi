@@ -57,7 +57,9 @@
      <Compile Include="Assets\Scripts\Look.cs" />
      <Compile Include="Assets\Scripts\Gear.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\AmbushState.cs" />
+     <Compile Include="Assets\Scripts\Ai\NextPoint.cs" />
      <Compile Include="Assets\Scripts\Car.cs" />
+     <Compile Include="Assets\Scripts\Indicator.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\IdleState.cs" />
      <Compile Include="Assets\Scripts\Ai\AiController.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\ChaseState.cs" />
