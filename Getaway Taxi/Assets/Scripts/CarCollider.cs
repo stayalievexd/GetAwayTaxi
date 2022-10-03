@@ -18,6 +18,9 @@ public class CarCollider : MonoBehaviour
     [Tooltip("Car stats script")]
     [SerializeField] private CarStats statsScript;
 
+    [Tooltip("Car movement script")]
+    [SerializeField] private Car carMovementScript;
+
     [Tooltip("RigidBody")]
     [SerializeField] private Rigidbody carRb;
 
@@ -33,5 +36,7 @@ public class CarCollider : MonoBehaviour
                 carRb.AddForce(transform.forward * -statsScript.getSpeed() * Random.Range(backwardsForce.x,backwardsForce.y));
             }
         }
+
+        carMovementScript.collision(statsScript.getSpeed());
     }
 }

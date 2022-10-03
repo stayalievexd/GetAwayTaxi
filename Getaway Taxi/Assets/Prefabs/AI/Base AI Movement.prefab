@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c80f7c2679e529d439e18ad71969aed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateScript: {fileID: 1163801442807237055}
   patrolState: {fileID: 1702632467473752863}
   chaseState: {fileID: 4778541752906240366}
   lookScript: {fileID: -7065704200662371857}
@@ -115,6 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 7022471722977093163}
+  managerScript: {fileID: 0}
   crashedState: {fileID: 8548493302431154918}
   crashed: 0
 --- !u!114 &-7065704200662371857

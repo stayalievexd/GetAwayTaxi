@@ -7,7 +7,9 @@ public class AiController : MonoBehaviour
     /*
         Controller script of individual ai
     */
+    
     [Header("States data")]
+    [SerializeField] private StateManager stateScript;
     [SerializeField] private PatrolState patrolState;
     [SerializeField] private ChaseState chaseState;
 
@@ -25,7 +27,8 @@ public class AiController : MonoBehaviour
     {   
         aiInformation = newInformation;
         managerScript = newManager;
-        patrolState.setStart(managerScript,newInformation,startPos);
+        patrolState.setStart(newInformation,startPos);
+        stateScript.setStart(this);
         spawncarBody();
         lookScript.enabled = newInformation.police;//disable for testing
     }
@@ -34,5 +37,10 @@ public class AiController : MonoBehaviour
     {
         spawnedBody = Instantiate(aiInformation.spawnObject,bodyHolder.position,bodyHolder.rotation,bodyHolder);
         chaseState.setStart(managerScript,aiInformation,spawnedBody.GetComponent<CarBodyScript>());
+    }
+
+    public void crashed()
+    {
+
     }
 }

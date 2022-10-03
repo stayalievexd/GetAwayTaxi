@@ -6,8 +6,9 @@ public class Car : MonoBehaviour
 {
     [Header("Hover Settings")]
 
-    [Tooltip("Min hover height and Max hover height")]
-    [SerializeField] private Vector2 hoverHeights = new Vector2(0.6f,5.0f);
+    // [Tooltip("Min hover height and Max hover height")]
+    // [SerializeField] private Vector2 hoverHeights = new Vector2(0.6f,5.0f);
+    [SerializeField] private float[] hoverHeights = new float[4];
 
     [Tooltip("The speed the car goes up and down in height")]
     [SerializeField] private float heighChangeSpeed = 2.5f;
@@ -58,6 +59,10 @@ public class Car : MonoBehaviour
     private float defaultDrag = 0;
     private float acelleration = 0;
     private float defaultHeight;
+    private int currentHeight = 0;
+    private int lastHeight = 0;
+    private int dir = 0;
+    private bool started = false;
 
     /*
         Controls for now to test with pc : 
@@ -78,9 +83,86 @@ public class Car : MonoBehaviour
 
     void Update()
     {
-        accelerate();//acelerating forward or backwards function
-        steering();//steering left and right
-        // inclineCar();//moves car down and up //not used anymore car stays at one height
+        if(started)
+        {
+            accelerate();//acelerating forward or backwards function
+            steering();//steering left and right
+            CheckChangeHeight();
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                startCar();
+            }
+        }
+    }
+
+    private void startCar()
+    {
+        started = true;
+        changeHeight(1);
+    }
+
+    private void CheckChangeHeight()
+    {
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            if(currentHeight < hoverHeights.Length-1)
+            {
+                changeHeight(currentHeight + 1);
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.S))
+        {
+            if(currentHeight > 0)
+            {
+                changeHeight(currentHeight - 1);
+            }
+        }
+
+        goToHeight();
+    }
+
+    private void changeHeight(int newHeight)
+    {
+        lastHeight = currentHeight;
+        if(newHeight > currentHeight)
+        {
+            dir = 1;
+        }
+        else
+        {
+            dir = -1;
+        }
+        currentHeight = newHeight;
+    }
+
+    private void goToHeight()
+    {
+        if(transform.position.y == defaultHeight+hoverHeights[currentHeight])
+        {
+            Debug.Log("At Pos");
+        }
+        else
+        {
+            Debug.Log(Mathf.Abs(transform.position.y - defaultHeight+hoverHeights[currentHeight]));
+        }
+        
+        transform.Translate(Vector3.up * dir * heighChangeSpeed * Time.deltaTime);
+
+        Vector3 originalPos = transform.position;
+        float setHeight;
+        if(dir > 0)
+        {
+            setHeight = Mathf.Clamp(originalPos.y, defaultHeight+hoverHeights[lastHeight], defaultHeight+hoverHeights[currentHeight]);    
+        }
+        else
+        {
+            setHeight = Mathf.Clamp(originalPos.y, defaultHeight+hoverHeights[currentHeight], defaultHeight+hoverHeights[lastHeight]);
+        }
+        originalPos.y = setHeight;
+        transform.position = originalPos;
     }
 
     private void accelerate()
@@ -121,25 +203,6 @@ public class Car : MonoBehaviour
         setSteering();//temp controlls for pc playing
     }
 
-    private void inclineCar()
-    {
-        float inputVerticle = Input.GetAxis("Vertical");//using W and S for forward and backward
-        if(inputVerticle != 0)
-        {
-            changeHeight(inputVerticle);
-        }
-    }
-
-    private void changeHeight(float dir)
-    {
-        transform.Translate(Vector3.up * dir * heighChangeSpeed * Time.deltaTime);
-        Vector3 originalPos = transform.position;
-        float setHeight = Mathf.Clamp(originalPos.y, defaultHeight-hoverHeights.x, defaultHeight+hoverHeights.y);
-        originalPos.y = setHeight;
-        transform.position = originalPos;
-
-    }
-
     private void setSteering()//temp until turned with vr hands
     {
         Vector3 currentAngle = steeringWheel.localEulerAngles;
@@ -176,6 +239,11 @@ public class Car : MonoBehaviour
         return currentAmount;
     }
 
+    public void collision(float amount)
+    {
+        acelleration = returnZero(acelleration,amount * 100);
+    }
+
     ////////////////////// get values
 
     private float procentageAngle()//gets the procentage of the current angle of the steering wheel 
@@ -192,5 +260,4 @@ public class Car : MonoBehaviour
     {
         return acelleration;
     }
-
 }

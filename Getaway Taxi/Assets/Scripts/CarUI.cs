@@ -22,6 +22,9 @@ public class CarUI : MonoBehaviour
     [Tooltip("Car stats script")]
     [SerializeField] private CarStats statsScript;
 
+    [Tooltip("Ai manager script")]
+    [SerializeField] private AiManager aiScript;
+
     [Header("Text objects")]
 
     [Tooltip("Text object of the speed counter")]
@@ -81,5 +84,11 @@ public class CarUI : MonoBehaviour
         movedDistance.text = "M: " + statsScript.getMovedDistance().ToString("F0");
         speedCounter.text = directions[gearArrayID] + statsScript.getSpeed().ToString("F1");
         accelearation.text = statsScript.getAccel().ToString("F1");
+    }
+
+    public void changeHeight(int currentHeight)
+    {
+        aiScript.setHeight(currentHeight);
+        
     }
 }

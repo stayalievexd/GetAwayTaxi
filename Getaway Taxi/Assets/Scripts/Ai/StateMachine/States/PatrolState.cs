@@ -17,7 +17,6 @@ public class PatrolState : State
     [SerializeField] private NavMeshAgent agent;
 
     [Header("Private Data")]
-    private AiManager aiManagerScript;
     private AiCarInformation carInfo;
     private Transform currentPos = null;
     private Vector2 goV2;
@@ -28,10 +27,9 @@ public class PatrolState : State
     public bool canSeePlayer;
     public ChaseState ChaseState;
 
-    public void setStart(AiManager managerScript,AiCarInformation info,Transform startDest)//start function gets called from the controller of the car
+    public void setStart(AiCarInformation info,Transform startDest)//start function gets called from the controller of the car
     {
         carInfo = info;
-        aiManagerScript = managerScript;
         setStats();
         setDest(startDest);
     }

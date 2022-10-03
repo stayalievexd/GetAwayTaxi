@@ -46,6 +46,7 @@ public class AiManager : MonoBehaviour
     private List<Transform> spawnedCops = new List<Transform>();
     private List<int> aiRarities = new List<int>();
     private List<int> copRarities = new List<int>();
+    private int currentHeight = 1;
 
     private void Start()
     {
@@ -109,8 +110,8 @@ public class AiManager : MonoBehaviour
 
     private void spawnCar(int spawnPoint)
     {
-        int b = 4;
-        for(int i=0; i<4; i++)
+        int b = maxCiv.Length;
+        for(int i=0; i<maxCiv.Length; i++)
         {
             if(maxCiv[i] > 0)
             {
@@ -131,7 +132,7 @@ public class AiManager : MonoBehaviour
             }
         }
 
-        if(b == 4)//if all spawned
+        if(b == maxCiv.Length)//if all spawned
         {
             CancelInvoke("spawnRandomSpot");
         }
@@ -148,7 +149,7 @@ public class AiManager : MonoBehaviour
             AiCarInformation currentAi = copAis[copRarities[Random.Range(0,copRarities.Count)]];
             
             Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
-            Transform startDes = spawnPoints[spawnPoint].GetComponent<NextPoint>().nextPoint();
+            Transform startDes = copSpawns[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
             AiController controllerScript = spawnedAi.GetComponent<AiController>();
             controllerScript.setStartInformation(currentAi,this,startDes);
@@ -194,4 +195,9 @@ public class AiManager : MonoBehaviour
         return newReturn;
     }
 
+
+    public void setHeight(int newHeight)
+    {
+        currentHeight = newHeight;
+    }
 }
