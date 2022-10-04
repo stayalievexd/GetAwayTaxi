@@ -46,29 +46,12 @@ public class AiManager : MonoBehaviour
     private List<Transform> spawnedCops = new List<Transform>();
     private List<int> aiRarities = new List<int>();
     private List<int> copRarities = new List<int>();
+    private int currentHeight = 1;
 
     private void Start()
     {
         setAiRarities();
         startSpawn();
-    }
-
-    public Transform getNewPoint(Transform lastPos)
-    {
-        Transform newReturn = null;
-        if(lastPos == null)
-        {
-            newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
-        }
-        else
-        {
-            while(newReturn == null || newReturn == lastPos)
-            {
-                newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
-            }
-        }
-
-        return newReturn;
     }
 
     /////////////spawning "Ai" ///has duplicate code for now can be better optimized 
@@ -127,8 +110,8 @@ public class AiManager : MonoBehaviour
 
     private void spawnCar(int spawnPoint)
     {
-        int b = 4;
-        for(int i=0; i<4; i++)
+        int b = maxCiv.Length;
+        for(int i=0; i<maxCiv.Length; i++)
         {
             if(maxCiv[i] > 0)
             {
@@ -138,17 +121,18 @@ public class AiManager : MonoBehaviour
                 Transform spawnPos = spawnPoints[spawnPoint].GetChild(i);
                 
                 AiCarInformation currentAi = civAi[aiRarities[Random.Range(0,aiRarities.Count)]];
-               
+
                 Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
+                Transform startDes = spawnPoints[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
                 AiController controllerScript = spawnedAi.GetComponent<AiController>();
-                controllerScript.setStartInformation(currentAi,this);
+                controllerScript.setStartInformation(currentAi,this,startDes,i);
 
                 spawnedCars.Add(spawnedAi);
             }
         }
 
-        if(b == 4)//if all spawned
+        if(b == maxCiv.Length)//if all spawned
         {
             CancelInvoke("spawnRandomSpot");
         }
@@ -165,12 +149,63 @@ public class AiManager : MonoBehaviour
             AiCarInformation currentAi = copAis[copRarities[Random.Range(0,copRarities.Count)]];
             
             Transform spawnedAi = Instantiate(spawnCarObj,spawnPos.position,spawnPos.rotation).transform;
+            Transform startDes = copSpawns[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
             AiController controllerScript = spawnedAi.GetComponent<AiController>();
-            controllerScript.setStartInformation(currentAi,this);
+            controllerScript.setStartInformation(currentAi,this,startDes,1);
 
             spawnedCops.Add(spawnedAi);
         }
     }
 
+    public Transform getClosedNext(Transform carTrans)
+    {
+        Transform closedPos = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = carTrans.position;
+        foreach (Transform pos in routePoints)
+        {
+            float dist = Vector3.Distance(pos.position, currentPos);
+            if (dist < minDist)
+            {
+                closedPos = pos;
+                minDist = dist;
+            }
+        }
+        
+        return closedPos;
+    }
+
+    /* the old point system where they get a random point assigned */
+    public Transform getNewPoint(Transform lastPos)
+    {
+        Transform newReturn = null;
+        if(lastPos == null)
+        {
+            newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
+        }
+        else
+        {
+            while(newReturn == null || newReturn == lastPos)
+            {
+                newReturn = routePoints[Random.Range(0,routePoints.Count-1)];
+            }
+        }
+
+        return newReturn;
+    }
+
+
+    public void setHeight(int newHeight)
+    {
+        currentHeight = newHeight;
+        for(int i=0; i<spawnedCars.Count; i++)
+        {
+            if(spawnedCars[i] != null)
+            {
+                spawnedCars[i].GetComponent<AiController>().setHeight(newHeight);
+            }
+        }
+    }
+    
 }

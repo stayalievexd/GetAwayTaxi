@@ -120,7 +120,7 @@ public class AiLook : MonoBehaviour
         }
         else//ouyt of view
         {
-            
+            chaseState.outOfView();
         }
         setStates();
     }

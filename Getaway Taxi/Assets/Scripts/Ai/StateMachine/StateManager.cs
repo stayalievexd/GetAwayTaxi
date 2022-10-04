@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class StateManager : MonoBehaviour
 {
+    [Header("Scripts")]
     [SerializeField] private State currentState;
 
     [Header("Switch from all States")]
-
     [SerializeField] private CrashedState crashedState;
 
     [Header("Switch all Values")]
     [SerializeField] private bool crashed = false;
 
+    [Header("Private data")]
+    private AiController controllerScript;
+
+    public void setStart(AiController newScript)//start function gets called from the controller of the car
+    {
+        controllerScript = newScript;
+    }
+
     private void Update()
     {
-        runStateMachine();
+        if(!Values.pauzed)
+        { 
+            runStateMachine();
+        }
     }
 
     private void runStateMachine()
@@ -49,6 +60,7 @@ public class StateManager : MonoBehaviour
         if(!crashed)
         {
             crashedState.crash(addedForce);
+            controllerScript.crashed();
             crashed = true;
         }
         

@@ -8,18 +8,20 @@ public class CarStats : MonoBehaviour
         centralized script to get current car information
     */
 
-    [Header("Script")]
-
-    [Tooltip("Car movement script")]
-    [SerializeField] private Car carScript;
-
     [Header("Private Data")]
     private Vector3 oldPos; //used for getting distance moved
 
+    [Header("Private Script")]
+    private Car carScript;
+
     [Header("Private Stats")]
     private float distanceMoved = 0.0f;
-    
 
+    public void setStart(Car newMovement)
+    {
+        carScript = newMovement;
+    }
+    
     private void Update()
     {
         countDistance();
@@ -38,6 +40,11 @@ public class CarStats : MonoBehaviour
     public float getMovedDistance()
     {
         return distanceMoved;
+    }
+
+    public float getAccel()
+    {
+        return carScript.getAccel();
     }
 
     public float getSpeed()

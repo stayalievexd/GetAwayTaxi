@@ -21,16 +21,16 @@ public class ChaseState : State
     [Header("Private Data")]
     private CarBodyScript bodyScript;
     private AiCarInformation carInfo;
+    private AiManager managerScript;
     private Transform target;
 
     [Header("State machine values")]
-    public RamState ramState;
     public PatrolState patrolState;
-    public bool isInAttackRage;
     public bool canSeePlayer;
 
-    public void setStart(AiCarInformation info,CarBodyScript newBodyScript)//start function gets called from the controller of the car
+    public void setStart(AiManager newManager, AiCarInformation info,CarBodyScript newBodyScript)//start function gets called from the controller of the car
     {
+        managerScript = newManager;
         carInfo = info;
         bodyScript = newBodyScript;
     }
@@ -39,20 +39,12 @@ public class ChaseState : State
     {
         if(canSeePlayer)
         {
-            if(isInAttackRage)
-            {
-                return ramState;
-            }
-            else
-            {
-                chase();
-                return this;
-            }
+            chase();
+            return this;
         }
         else
         {
             stopChase();
-
             return patrolState;
         }
     }
@@ -64,15 +56,22 @@ public class ChaseState : State
 
     private void stopChase()
     {
-        bodyScript.setChase(false);//turns on chase lights
-        patrolState.setPoint();//sets new patrol point
+        patrolState.setDest(managerScript.getClosedNext(transform.root.transform));
     }
 
     public void setStartState(Transform newTarget)
     {
+        canSeePlayer = true;
         agent.speed = Random.Range(carInfo.chaseSpeed.x,carInfo.chaseSpeed.y);//sets chase speed
         target = newTarget;
       
         bodyScript.setChase(true);//turns on chase lights
     }
+
+    public void outOfView()
+    {
+        canSeePlayer = false;
+        bodyScript.setChase(false);//turns off chase lights
+    }
+    
 }

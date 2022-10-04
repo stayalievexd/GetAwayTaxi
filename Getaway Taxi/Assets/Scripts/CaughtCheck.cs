@@ -32,9 +32,9 @@ public class CaughtCheck : MonoBehaviour
         // }
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, coughtDistance);
-    }
+    // void OnDrawGizmosSelected()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawSphere(transform.position, coughtDistance);
+    // }
 }
