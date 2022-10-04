@@ -18,6 +18,9 @@ public class CarBodyScript : MonoBehaviour
 
     public void setIcon(bool active)
     {
-        iconObject.SetActive(active);
+        if(iconObject)
+        {
+            iconObject.SetActive(active);
+        }
     }
 }

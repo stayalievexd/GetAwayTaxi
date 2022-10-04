@@ -46,10 +46,9 @@ public class Car : MonoBehaviour
     [Tooltip("Rigidbody of car gameobject")]
     [SerializeField] private Rigidbody carRb;
 
-    [Header("Scripts")]
-
-    [Tooltip("Script for the ui in the car")]
-    [SerializeField] private CarUI carUIScript;
+    [Header("Private Scripts")]
+    private CarUI carUIScript;
+    private AiManager aiScript;
 
     [Header("Private Data")]
     private float currentHoverHeight = 3;
@@ -68,65 +67,61 @@ public class Car : MonoBehaviour
         Controls for now to test with pc : 
 
         a-d to steer left to right hold space to "hold" the steering weel
-        w-s to go up and down //disabled
+        w-s to go up and down 
         left mouse button to accelerate forwards
         right mouse button to accelerate backwards
+        r to start the car
 
         controlls will be maped to controller of the vr headset
     */
-
-    void Start()
+    public void setStart(CarUI newUi,AiManager newManager)
     {
+        carUIScript = newUi;
+        aiScript = newManager;
         defaultDrag = carRb.drag;
         defaultHeight = transform.position.y;
     }
 
     void Update()
     {
-        if(started)
-        {
-            accelerate();//acelerating forward or backwards function
-            steering();//steering left and right
-            CheckChangeHeight();
-        }
-        else
-        {
-            if(Input.GetKeyDown(KeyCode.R))
+        if(!Values.pauzed)
+        { 
+            if(started)
             {
-                startCar();
+                accelerate();//acelerating forward or backwards function
+                steering();//steering left and right
+                CheckChangeHeight();
             }
+            goToHeight();
         }
-    }
-
-    private void startCar()
-    {
-        started = true;
-        changeHeight(1);
     }
 
     private void CheckChangeHeight()
     {
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Mathf.Abs(defaultHeight+hoverHeights[currentHeight]-transform.position.y) < 0.3f)
         {
-            if(currentHeight < hoverHeights.Length-1)
+            if(Input.GetKeyDown(KeyCode.W))
             {
-                changeHeight(currentHeight + 1);
+                if(currentHeight < hoverHeights.Length-1)
+                {
+                    changeHeight(currentHeight + 1);
+                }
+            }
+            else if(Input.GetKeyDown(KeyCode.S))
+            {
+                if(currentHeight > 0)
+                {
+                    changeHeight(currentHeight - 1);
+                }
             }
         }
-        else if(Input.GetKeyDown(KeyCode.S))
-        {
-            if(currentHeight > 0)
-            {
-                changeHeight(currentHeight - 1);
-            }
-        }
-
-        goToHeight();
     }
 
     private void changeHeight(int newHeight)
     {
+        Values.heightLayer = newHeight;//for new spawned cars
         lastHeight = currentHeight;
+        aiScript.setHeight(currentHeight);
         if(newHeight > currentHeight)
         {
             dir = 1;
@@ -140,17 +135,7 @@ public class Car : MonoBehaviour
 
     private void goToHeight()
     {
-        if(transform.position.y == defaultHeight+hoverHeights[currentHeight])
-        {
-            Debug.Log("At Pos");
-        }
-        else
-        {
-            Debug.Log(Mathf.Abs(transform.position.y - defaultHeight+hoverHeights[currentHeight]));
-        }
-        
         transform.Translate(Vector3.up * dir * heighChangeSpeed * Time.deltaTime);
-
         Vector3 originalPos = transform.position;
         float setHeight;
         if(dir > 0)
@@ -171,7 +156,6 @@ public class Car : MonoBehaviour
         carUIScript.setGear(gass);
         addGass(gass);
         carRb.AddForceAtPosition(trustPos.forward * acelleration * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
-        // carRb.AddForceAtPosition(trustPos.forward * carSpeed * gass * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
     }
 
     private void addGass(int gass)
@@ -239,9 +223,24 @@ public class Car : MonoBehaviour
         return currentAmount;
     }
 
+    //outside script functions
+
     public void collision(float amount)
     {
         acelleration = returnZero(acelleration,amount * 100);
+    }
+
+    public void startCar(bool active)
+    {
+        started = active;
+        if(active)
+        {
+            changeHeight(1);
+        }
+        else
+        {
+            changeHeight(0);
+        }
     }
 
     ////////////////////// get values

@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class EndPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Scripts")]
+    [SerializeField] GameController controllerScript;
+
+    [Header("Private data")]
+    private bool ended = false;
+ 
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if(!ended)
+        {
+            if(other.transform.root.tag == "Player")
+            {
+                end(true);
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void end(bool active)
     {
-        
+        ended = active;
+        controllerScript.reachedEnd();
     }
 }

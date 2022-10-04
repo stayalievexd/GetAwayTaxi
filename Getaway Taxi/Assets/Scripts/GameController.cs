@@ -4,7 +4,22 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    
+    [Header("End Settings")]
+
+    [Tooltip("Time for the slow motion end effect")]
+    [SerializeField] private float slowMoTime = 2f;
+
+    [Tooltip("Min time speed of the end slowmotion")]
+    [SerializeField] private float minSlowmo = 0.05f;
+
+    [Header("Scripts")]
+    [SerializeField] private AiManager aiMangerScript;
+    [SerializeField] private CarController carScript;
+    [SerializeField] private TimeManager timeScript;
+    [SerializeField] private EndPoint endScript;
+
+    [Header("Private Data")]
+    private bool reached = false;
 
     public void cought()
     {
@@ -18,6 +33,26 @@ public class GameController : MonoBehaviour
 
     public void reachedEnd()
     {
-        //slow down the game to slow motion
+        reached = true;
+        StartCoroutine(timeScript.slowlySlowmo(slowMoTime,minSlowmo,1));
+    }
+
+    public void pauzedGame(bool active)
+    {
+        Debug.Log("Pauzed : " + active);
+        Values.pauzed = active;
+    }
+
+
+    /////get data
+
+    public TimeManager getTimeScript()
+    {
+        return timeScript;
+    }
+
+    public AiManager getAiManager()
+    {
+        return aiMangerScript;
     }
 }

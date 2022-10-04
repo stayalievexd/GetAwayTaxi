@@ -36,6 +36,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\TimeManager.cs" />
      <Compile Include="Assets\Scripts\Ai\Police Traps\BlockadeTrap.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\State.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\CrashedState.cs" />
@@ -50,12 +52,12 @@
      <Compile Include="Assets\Scripts\Ai\FollowObject.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\StateManager.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\PatrolState.cs" />
+     <Compile Include="Assets\Scripts\EndPoint.cs" />
      <Compile Include="Assets\Scripts\UIController.cs" />
      <Compile Include="Assets\Scripts\CaughtCheck.cs" />
      <Compile Include="Assets\Scripts\SteeringWheel.cs" />
      <Compile Include="Assets\Scripts\CarCollider.cs" />
      <Compile Include="Assets\Scripts\Look.cs" />
-     <Compile Include="Assets\Scripts\Gear.cs" />
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\AmbushState.cs" />
      <Compile Include="Assets\Scripts\Ai\NextPoint.cs" />
      <Compile Include="Assets\Scripts\Car.cs" />
@@ -65,9 +67,10 @@
      <Compile Include="Assets\Scripts\Ai\StateMachine\States\ChaseState.cs" />
      <Compile Include="Assets\Scripts\Ai\AiLook.cs" />
      <Compile Include="Assets\Scripts\Ai\AiManager.cs" />
-     <Compile Include="Assets\Scripts\EndPoint.cs" />
-     <Compile Include="Assets\Scripts\GameController.cs" />
-     <Compile Include="Assets\Scripts\TimeManager.cs" />
+     <Compile Include="Assets\Scripts\Shake.cs" />
+     <Compile Include="Assets\Scripts\CarController.cs" />
+     <Compile Include="Assets\Scripts\Values.cs" />
+     <Compile Include="Assets\Scripts\SpecialPowers.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

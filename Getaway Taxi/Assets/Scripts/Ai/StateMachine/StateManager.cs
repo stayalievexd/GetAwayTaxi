@@ -23,7 +23,10 @@ public class StateManager : MonoBehaviour
 
     private void Update()
     {
-        runStateMachine();
+        if(!Values.pauzed)
+        { 
+            runStateMachine();
+        }
     }
 
     private void runStateMachine()

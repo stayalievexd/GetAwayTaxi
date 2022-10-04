@@ -126,7 +126,7 @@ public class AiManager : MonoBehaviour
                 Transform startDes = spawnPoints[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
                 AiController controllerScript = spawnedAi.GetComponent<AiController>();
-                controllerScript.setStartInformation(currentAi,this,startDes);
+                controllerScript.setStartInformation(currentAi,this,startDes,i);
 
                 spawnedCars.Add(spawnedAi);
             }
@@ -152,7 +152,7 @@ public class AiManager : MonoBehaviour
             Transform startDes = copSpawns[spawnPoint].GetComponent<NextPoint>().nextPoint();
 
             AiController controllerScript = spawnedAi.GetComponent<AiController>();
-            controllerScript.setStartInformation(currentAi,this,startDes);
+            controllerScript.setStartInformation(currentAi,this,startDes,1);
 
             spawnedCops.Add(spawnedAi);
         }
@@ -199,5 +199,13 @@ public class AiManager : MonoBehaviour
     public void setHeight(int newHeight)
     {
         currentHeight = newHeight;
+        for(int i=0; i<spawnedCars.Count; i++)
+        {
+            if(spawnedCars[i] != null)
+            {
+                spawnedCars[i].GetComponent<AiController>().setHeight(newHeight);
+            }
+        }
     }
+    
 }
