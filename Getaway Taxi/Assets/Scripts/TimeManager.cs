@@ -80,28 +80,28 @@ public class TimeManager : MonoBehaviour
         if(resetTime == 0)//normal time
         {
             Time.timeScale = normalTime;
-            Time.fixedDeltaTime = 0.02f;
+            Time.fixedDeltaTime = 0.01388889f;
             controllerScript.pauzedGame(false);
         }
         else if(resetTime == 1)//pauze time
         {
             pauzed = true;
             Time.timeScale = 0;
-            Time.fixedDeltaTime = 0.02f;
+            Time.fixedDeltaTime = 0.01388889f;
             controllerScript.pauzedGame(true);
         }
         else if(resetTime == 2)//slow mo time
         {
             slowMoActive = true;
             Time.timeScale = slowMoTime;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            Time.fixedDeltaTime = Time.timeScale * 0.01388889f;
             controllerScript.pauzedGame(false);
         }
         else if(resetTime == 3)//speed up time
         {
             speedUp = true;
             Time.timeScale = speedUpTime;
-            Time.fixedDeltaTime = 0.02f;
+            Time.fixedDeltaTime = 0.01388889f;
             controllerScript.pauzedGame(false);
         }
         //4 = keep same time
