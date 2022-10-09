@@ -65,9 +65,9 @@ public class CarUI : MonoBehaviour
     }
 
 
-    public void setGear(int gear)
+    public void setGear(float gear)
     {
-        gearArrayID = gear+1;
+        gearArrayID = Mathf.RoundToInt(gear)+1;
 
         if(gear != -1)
         {

@@ -26,19 +26,10 @@ public class Car : MonoBehaviour
 
     [Header("Steering Wheel settings")]
 
-    [Tooltip("max angle of steering wheel in either direction")]
-    [SerializeField] private float maxSteerAngle = 180;
-
-    [Tooltip("The amount the steer angle is changed in a second (Used for pc)")]
-    [SerializeField] private float steeringSpeed = 60;//temp untill vr steering used
-
-    [Tooltip("The Speed the wheel returns to 0 when let go")]
-    [SerializeField] private float returnSteerSpeed = 80;//the speed the steer returns to 0;
+    [Tooltip("Speed of what the car turns at based on the steeringwheel angle")]
+    [SerializeField] private float turnSpeed = 100;
 
     [Header("Set Data")]
-
-    [Tooltip("The transform parent of the steering wheel so it can turn")]
-    [SerializeField] private Transform steeringWheel;
 
     [Tooltip("The transform of where the object gets pushed")]
     [SerializeField] private Transform trustPos;
@@ -49,12 +40,9 @@ public class Car : MonoBehaviour
     [Header("Private Scripts")]
     private CarUI carUIScript;
     private AiManager aiScript;
+    private SteeringWheel steerinScript;
 
     [Header("Private Data")]
-    private float currentHoverHeight = 3;
-    private float gear = 0; // - = reverse // 0 = neutral // + = forward
-    private float steerAngle = 0; // current angle of the steering wheel
-    private float carAngle = 0; // current down angle of the car
     private float defaultDrag = 0;
     private float acelleration = 0;
     private float defaultHeight;
@@ -74,12 +62,13 @@ public class Car : MonoBehaviour
 
         controlls will be maped to controller of the vr headset
     */
-    public void setStart(CarUI newUi,AiManager newManager)
+    public void setStart(CarUI newUi,AiManager newManager,SteeringWheel newSteering)
     {
         carUIScript = newUi;
         aiScript = newManager;
         defaultDrag = carRb.drag;
         defaultHeight = transform.position.y;
+        steerinScript = newSteering;
     }
 
     void Update()
@@ -100,14 +89,14 @@ public class Car : MonoBehaviour
     {
         if(Mathf.Abs(defaultHeight+hoverHeights[currentHeight]-transform.position.y) < 0.3f)
         {
-            if(Input.GetKeyDown(KeyCode.W))
+            if(Input.GetMouseButton(0))
             {
                 if(currentHeight < hoverHeights.Length-1)
                 {
                     changeHeight(currentHeight + 1);
                 }
             }
-            else if(Input.GetKeyDown(KeyCode.S))
+            else if(Input.GetMouseButton(1))
             {
                 if(currentHeight > 0)
                 {
@@ -152,13 +141,22 @@ public class Car : MonoBehaviour
 
     private void accelerate()
     {
-        int gass = (Input.GetMouseButton(0) ? 1 : 0) + (Input.GetMouseButton(1) ? -1 : 0);/////with the vr controller it can be like a real gass pedle where you dont fully press the trigger down
+        float gass;
+        if(Application.isEditor)
+        {
+            gass = (Input.GetKey(KeyCode.W) ? 1 : 0) + (Input.GetKey(KeyCode.S) ? -1 : 0);
+        }
+        else
+        {
+            gass = (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) + -OVRInput.Get(OVRInput.RawAxis1D.LIndexTrigger));
+        }
+
         carUIScript.setGear(gass);
         addGass(gass);
         carRb.AddForceAtPosition(trustPos.forward * acelleration * Time.deltaTime,trustPos.position,ForceMode.VelocityChange);//moves car forward
     }
 
-    private void addGass(int gass)
+    private void addGass(float gass)
     {
         if(gass == 0)
         {
@@ -173,24 +171,8 @@ public class Car : MonoBehaviour
 
     private void steering()
     {
-        float inputHorizontal = Input.GetAxis("Horizontal");//gets horizontal turn rate later needs to be gotten from steering wheel
-        steerAngle += (inputHorizontal * steeringSpeed) * Time.deltaTime;
-        steerAngle = Mathf.Clamp(steerAngle, -maxSteerAngle, maxSteerAngle);
-
-        if(inputHorizontal == 0 && !Input.GetKey(KeyCode.Space))//space bar is to mimic when holding the steering wheel still
-        {
-            steerAngle = returnZero(steerAngle,returnSteerSpeed);//returns steering wheel to 0
-        }
-
-        transform.Rotate(Vector3.up * procentageAngle() * Time.deltaTime * 150);//rotates car in steering direction
+        transform.Rotate(Vector3.up * steerinScript.procentageAngle() * Time.deltaTime * turnSpeed);//rotates car in steering direction
         transform.localEulerAngles = new Vector3(0,transform.localEulerAngles.y,0);
-        setSteering();//temp controlls for pc playing
-    }
-
-    private void setSteering()//temp until turned with vr hands
-    {
-        Vector3 currentAngle = steeringWheel.localEulerAngles;
-        steeringWheel.localEulerAngles = new Vector3(currentAngle.x,currentAngle.y,-steerAngle);
     }
 
     private float returnZero(float currentAmount, float returnSpeed)
@@ -244,11 +226,6 @@ public class Car : MonoBehaviour
     }
 
     ////////////////////// get values
-
-    private float procentageAngle()//gets the procentage of the current angle of the steering wheel 
-    {
-        return (steerAngle - 0) / (maxSteerAngle - 0);
-    }
 
     public float getSpeed()//for displaying car speed
     {
