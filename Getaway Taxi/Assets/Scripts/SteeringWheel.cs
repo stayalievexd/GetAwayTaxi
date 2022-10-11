@@ -104,6 +104,7 @@ public class SteeringWheel : MonoBehaviour
     private void setHandPositions(int handId)
     {
         HandVisual[handId].transform.position = new Vector3(grabPoints[handId].position.x,grabPoints[handId].position.y,grabPoints[handId].position.z);
+        // HandPostions[handId].transform.localEulerAngles = transform.forward;
     }
     
     private bool checkDistance()
@@ -171,7 +172,7 @@ public class SteeringWheel : MonoBehaviour
             }
             else
             {
-                // setChild(transform.localEulerAngles.y > 200 ? 0 : 1);//sets steering wheel child object right rotation
+                setChild(transform.localEulerAngles.y > 200 ? 0 : 1);//sets steering wheel child object right rotation
                 // calculateSteer();
             }
         }
@@ -196,9 +197,13 @@ public class SteeringWheel : MonoBehaviour
     private void clampRotation(Quaternion rot)
     {
         Vector3 oldRot = transform.localEulerAngles;
+  
+        oldRot.y = -90;
+        oldRot.z = 0;
+        
         bool oldRightSide = (transform.position.z > grabPoints[1].position.z);
         bool oldLeftSide = (transform.position.z > grabPoints[0].position.z);
-       
+
         transform.rotation = rot;
 
         float height = (transform.position.y - grabPoints[0].position.y) - (transform.position.y - grabPoints[1].position.y) * 100;
@@ -212,6 +217,13 @@ public class SteeringWheel : MonoBehaviour
         else if(oldLeftSide != newLeftSide && height > 0)
         {
             transform.localEulerAngles = oldRot;
+        }
+        else
+        {
+            Vector3 neRot = transform.localEulerAngles;
+            neRot.y = -90;
+            neRot.z = 0;
+            transform.localEulerAngles = neRot;
         }
 
         calculateSteer();

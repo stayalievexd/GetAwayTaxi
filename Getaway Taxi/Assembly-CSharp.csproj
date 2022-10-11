@@ -194,6 +194,7 @@
      <Compile Include="Assets\Oculus\SampleFramework\Usage\Passthrough\Scripts\PassthroughStyler.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\SpatialAnchor\Scripts\AnchorUIManager.cs" />
      <Compile Include="Assets\Scripts\Ai\AiManager.cs" />
+     <Compile Include="Assets\Scripts\FakeSteeringWheel.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\Oculus\SampleFramework\Usage\SceneManager\Shaders\Hidden.shader" />

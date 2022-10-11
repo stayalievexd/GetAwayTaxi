@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private CarController carScript;
     [SerializeField] private TimeManager timeScript;
     [SerializeField] private EndPoint endScript;
+    [SerializeField] private FakeSteeringWheel steerinScript;
 
     [Header("Private Data")]
     private bool reached = false;
@@ -54,5 +55,10 @@ public class GameController : MonoBehaviour
     public AiManager getAiManager()
     {
         return aiMangerScript;
+    }
+
+    public FakeSteeringWheel getSteering()
+    {
+        return steerinScript;
     }
 }

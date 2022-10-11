@@ -40,7 +40,7 @@ public class Car : MonoBehaviour
     [Header("Private Scripts")]
     private CarUI carUIScript;
     private AiManager aiScript;
-    private SteeringWheel steerinScript;
+    private FakeSteeringWheel steerinScript;
 
     [Header("Private Data")]
     private float defaultDrag = 0;
@@ -62,7 +62,7 @@ public class Car : MonoBehaviour
 
         controlls will be maped to controller of the vr headset
     */
-    public void setStart(CarUI newUi,AiManager newManager,SteeringWheel newSteering)
+    public void setStart(CarUI newUi,AiManager newManager,FakeSteeringWheel newSteering)
     {
         carUIScript = newUi;
         aiScript = newManager;

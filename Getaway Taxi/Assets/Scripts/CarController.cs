@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {   
+    [Header("SteeringWheelObjects")]
+    [SerializeField] private Transform steeringWheel;
+    [SerializeField] private Transform[] handPos = new Transform[2];
+    [SerializeField] private Transform[] holdPos = new Transform[2];
+    [SerializeField] private Transform[] handVis = new Transform[2];
+
     [Header("Objects")]
 
     [SerializeField] private GameObject pcPlayer;
@@ -13,7 +19,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameController controllerScript;
     [SerializeField] private Car movementScript;
     [SerializeField] private CarCollider colliderScript;
-    [SerializeField] private SteeringWheel steerinScript;
     [SerializeField] private CarUI uiScript;
     [SerializeField] private CarStats statScript;
     [SerializeField] private SpecialPowers specialScript;
@@ -46,8 +51,9 @@ public class CarController : MonoBehaviour
 
     private void setStartData()
     {
+        controllerScript.getSteering().setStart(steeringWheel,handPos,handVis,holdPos);
         specialScript.setStart(controllerScript,controllerScript.getTimeScript(),uiScript);
-        movementScript.setStart(uiScript,controllerScript.getAiManager(),steerinScript);
+        movementScript.setStart(uiScript,controllerScript.getAiManager(),controllerScript.getSteering());
         statScript.setStart(movementScript);
         colliderScript.setStartData(movementScript,statScript);
         uiScript.setStart(statScript);
