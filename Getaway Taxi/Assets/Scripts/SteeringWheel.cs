@@ -14,6 +14,7 @@ public class SteeringWheel : MonoBehaviour
 
     [Tooltip("The Speed the wheel returns to 0 when let go")]
     [SerializeField] private float returnSteerSpeed = 200;//the speed the steer returns to 0;
+    [SerializeField] private Vector3[] visualRot = new Vector3[2];
 
     [Header("Controllers")]
     [SerializeField] private OVRInput.Button[] grabInputs = new OVRInput.Button[2];
@@ -25,8 +26,7 @@ public class SteeringWheel : MonoBehaviour
     [Header("Private data")]
     private float steerAngle = 0; // current angle of the steering wheel
     private bool[] intriggerHand = new bool[2];//if the controllers are in the trigger
-    [SerializeField] private int[] holding = new int[2];//if controller is on the wheel
-    private bool[] posHeld = new bool[2];//if transform is being held
+    [SerializeField] private bool[] posHeld = new bool[2];//if transform is being held
 
     /*
         This script will be used for rotating the steering wheel while holding it
@@ -36,15 +36,6 @@ public class SteeringWheel : MonoBehaviour
 
         Needs to rotate the wheel based on how much the hand is moved from the original holding position
     */
-
-    private void Start()
-    {
-        holding[0] = -1;
-        holding[1] = -1;
-
-        // holding[0] = 0;
-        // holding[1] = 1;
-    }
 
     private void Update()
     {
@@ -89,12 +80,11 @@ public class SteeringWheel : MonoBehaviour
 
         for(int i=0; i<intriggerHand.Length; i++)
         {
-            if(holding[i] != -1)//if hand is holding
+            if(posHeld[i])//if hand is holding
             {
                 if(!checkDistance())//trigger let go or the distance is to far // || !OVRInput.Get(grabInputs[i])
                 {
-                    letgo(i); 
-                    //hand lets go
+                    letgo(i);//hand lets go
                 }
                 setHandPositions(i);
             }
@@ -113,7 +103,8 @@ public class SteeringWheel : MonoBehaviour
 
     private void setHandPositions(int handId)
     {
-        HandVisual[handId].transform.position = new Vector3(grabPoints[holding[handId]].position.x,grabPoints[holding[handId]].position.y,grabPoints[holding[handId]].position.z);
+        HandVisual[handId].transform.position = new Vector3(grabPoints[handId].position.x,grabPoints[handId].position.y,grabPoints[handId].position.z);
+        // HandPostions[handId].transform.localEulerAngles = transform.forward;
     }
     
     private bool checkDistance()
@@ -124,44 +115,18 @@ public class SteeringWheel : MonoBehaviour
 
     private void letgo(int handId)//lets go the hand of the given id
     {
-        posHeld[holding[handId]] = false;
-        holding[handId] = -1;//sets hand holding back to not holding
+        posHeld[handId] = false;
         HandVisual[handId].transform.localPosition = new Vector3(0,0,0);//reset controller to origin position
     }
 
     private void tryHolding(int hand)
     {
-        int idClose = checkClosed(hand);
-        if(idClose > -1)//if can hold
-        {
-            holding[hand] = idClose;
-            posHeld[idClose] = true;//sets is holding
-        }
-    }
-
-    private int checkClosed(int hand)
-    {
-        float dist1 = Vector3.Distance(grabPoints[0].position, HandPostions[hand].position);
-        float dist2 = Vector3.Distance(grabPoints[1].position, HandPostions[hand].position);
-
-        int setSlot = 0;
-
-        if(dist1 > dist2)
-        {
-            setSlot = 1;
-        }
-
-        if(posHeld[setSlot])
-        {
-            setSlot = -1;
-        }
-
-        return setSlot;
+        posHeld[hand] = true;//sets is holding
     }
 
     private void steering()
     {
-        if(Application.isEditor)//if in unity so playing on pc
+        if(!Application.isEditor)//if in unity so playing on pc
         {
             float inputHorizontal = Input.GetAxis("Horizontal");//gets horizontal turn rate later needs to be gotten from steering wheel
             steerAngle += (inputHorizontal * steeringSpeed) * Time.deltaTime;
@@ -171,65 +136,123 @@ public class SteeringWheel : MonoBehaviour
             {
                 steerAngle = returnZero(steerAngle,returnSteerSpeed);//returns steering wheel to 0
             }
-
-            setSteering();//temp controlls for pc playing
+            setSteering();//moves steering wheel
         }
         else//VR
         {
             if(isHeld())//if wheel is not beeing held by any hand
             {
                 Vector3 currentAngle = transform.eulerAngles;
-                if(holding[0] != -1 && holding[1] != -1)//both hands on the wheel
+                if(posHeld[0] && posHeld[1])//both hands on the wheel
                 {
-                    // Vector3 angle1 = Hands[0].transform.position - transform.position;
-                    // Vector3 angle2 = Hands[1].transform.position - transform.position;
+                    Vector3 handPos1 = HandPostions[0].transform.position;
+                    Vector3 handPos2 = HandPostions[1].transform.position;
+                    handPos1.x = transform.position.x;
+                    handPos2.x = transform.position.x;
 
-                    // currentAngle = angle1 - angle2;
-                }
-                else if(holding[0] != -1)//left hand on wheel
-                {
-                    // currentAngle = HandPostions[0].transform.position - transform.position;
-                    // Quaternion rot = Quaternion.LookRotation(currentAngle,-transform.right);
-                    // transform.rotation = rot;
+                    Vector3 direction = handPos1 - handPos2;
+                    
+                    Vector3 newDirection = Vector3.RotateTowards(transform.forward, direction, 1, 0.0f);
 
-                    // Vector3 currentRot = transform.localEulerAngles;
-                    // currentRot.x = 0;
-                    // // currentRot.y = currentRot.y + 90;
-                    // currentRot.y = 0;
-                    // // currentRot.z = 0;
-                    // transform.localEulerAngles = currentRot;
-                    // // Quaternion rot = Quaternion.LookRotation(currentAngle,transform.up);
-                    // // rot.x=0;
-                    // // rot.z=0;
-                    // Debug.Log("test" + currentAngle);
+                    newDirection.x = 0;
+                    Quaternion rot = Quaternion.LookRotation(newDirection);
+
+                    clampRotation(rot);
                 }
-                else if(holding[1] != -1)//right hand on the wheel
+                else if(posHeld[0])//left hand on wheel
                 {
-                    currentAngle = HandPostions[1].transform.position - transform.position;
+                    oneHanded(0);
+                }
+                else if(posHeld[1])//right hand on the wheel
+                {
+                    oneHanded(1);
                 }
 
-                // Quaternion rot = Quaternion.LookRotation(currentAngle,transform.up);
-                // currentAngle.y = 0;
-                // currentAngle.z = 0;
-                // // transform.LookAt(HandPostions[0].transform);
-                // transform.localEulerAngles = currentAngle;
-                // Debug.Log(rot);
-                // Vector3 normalRotation = transform.localEulerAngles;
-                // transform.rotation = rot;
+                setChild(transform.localEulerAngles.y > 200 ? 0 : 1);//sets steering wheel child object right rotation
             }
             else
             {
-                steerAngle = returnZero(steerAngle,returnSteerSpeed);//returns steering wheel to 0
-                setSteering();//temp controlls for pc playing
+                setChild(transform.localEulerAngles.y > 200 ? 0 : 1);//sets steering wheel child object right rotation
+                // calculateSteer();
             }
         }
-
     }
 
-    private void setSteering()//temp until turned with vr hands
+    private void oneHanded(int handId)
+    {
+        Vector3 handPos = HandPostions[handId].transform.position;
+        handPos.x = transform.position.x;
+
+        Vector3 targetDirection = handPos - transform.position; 
+        targetDirection *= (handId == 0 ? 1 : -1);
+
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, 1, 0.0f);
+
+        newDirection.x = 0;
+        Quaternion rot = Quaternion.LookRotation(newDirection);
+
+        clampRotation(rot);
+    }
+    
+    private void clampRotation(Quaternion rot)
+    {
+        Vector3 oldRot = transform.localEulerAngles;
+  
+        oldRot.y = -90;
+        oldRot.z = 0;
+        
+        bool oldRightSide = (transform.position.z > grabPoints[1].position.z);
+        bool oldLeftSide = (transform.position.z > grabPoints[0].position.z);
+
+        transform.rotation = rot;
+
+        float height = (transform.position.y - grabPoints[0].position.y) - (transform.position.y - grabPoints[1].position.y) * 100;
+        bool newRightSide = (transform.position.z > grabPoints[1].position.z);
+        bool newLeftSide = (transform.position.z > grabPoints[0].position.z);
+
+        if(oldRightSide != newRightSide && height < 0)
+        {
+            transform.localEulerAngles = oldRot;
+        }
+        else if(oldLeftSide != newLeftSide && height > 0)
+        {
+            transform.localEulerAngles = oldRot;
+        }
+        else
+        {
+            Vector3 neRot = transform.localEulerAngles;
+            neRot.y = -90;
+            neRot.z = 0;
+            transform.localEulerAngles = neRot;
+        }
+
+        calculateSteer();
+    }
+
+    private void calculateSteer()
+    {
+        float newHeight = (transform.position.y - grabPoints[0].position.y) - (transform.position.y - grabPoints[1].position.y) * 100;
+        float rotationProcentage = ((newHeight - -3.8f) * 100) / (3.8f - -3.8f);
+        steerAngle = -maxSteerAngle - ((-maxSteerAngle - maxSteerAngle) / 100 * rotationProcentage);
+    }
+
+    private void returnVr()
+    {
+        float newHeight = (transform.position.y - grabPoints[0].position.y) - (transform.position.y - grabPoints[1].position.y) * 100;
+        float rotationProcentage = ((newHeight - -3.8f) * 100) / (3.8f - -3.8f);
+        rotationProcentage = returnZero(rotationProcentage,returnSteerSpeed);
+        steerAngle = -maxSteerAngle - ((-maxSteerAngle - maxSteerAngle) / 100 * rotationProcentage);
+    }
+
+    private void setSteering()//for pc steering
     {
         Vector3 currentAngle = transform.localEulerAngles;
-        transform.localEulerAngles = new Vector3(currentAngle.x,currentAngle.y,-steerAngle);
+        transform.localEulerAngles = new Vector3(-steerAngle,-90,0);
+    }
+
+    private void setChild(int set)
+    {
+        transform.GetChild(0).transform.localEulerAngles = visualRot[set];
     }
     
     private float returnZero(float currentAmount, float returnSpeed)
@@ -272,7 +295,7 @@ public class SteeringWheel : MonoBehaviour
     private bool isHeld()
     {
         bool holdingWheel = true;
-        if(holding[0] == -1 && holding[1] == -1)
+        if(!posHeld[0] && !posHeld[1])
         {
             return false;
         }
